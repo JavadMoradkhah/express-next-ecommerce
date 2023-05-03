@@ -1,4 +1,5 @@
 require('dotenv').config();
+import 'reflect-metadata';
 import express, { Request, Response, NextFunction } from 'express';
 
 const app = express();
