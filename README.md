@@ -11,3 +11,9 @@ npm run start:dev
 ```
 npm run start:prod
 ```
+
+### Build for production
+
+```
+npm run build
+```
