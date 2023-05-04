@@ -3,6 +3,7 @@ import 'reflect-metadata';
 import express, { Request, Response, NextFunction } from 'express';
 import helmet from 'helmet';
 import { AppDataSource } from './config/database';
+import categoryRouter from './routes/categories.router';
 import { StatusCode } from './enums/status-code.enum';
 import { HttpException } from './common/exceptions';
 import { StatusCodeName } from './enums/status-code-name.enum';
@@ -16,6 +17,8 @@ app.use(express.json());
 app.get('/api/', (req: Request, res: Response, next: NextFunction) => {
   res.status(200).send('Hello World');
 });
+
+app.use('/api/categories', categoryRouter);
 
 app.use((error: any, req: Request, res: Response, next: NextFunction) => {
   console.error(error);
