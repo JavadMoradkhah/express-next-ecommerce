@@ -3,3 +3,4 @@ dist/
 public/
 .env
 .log
+tsconfig.tsbuildinfo
