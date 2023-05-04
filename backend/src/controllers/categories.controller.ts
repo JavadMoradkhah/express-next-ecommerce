@@ -56,9 +56,11 @@ export const create = async (createCategoryDto: CreateCategoryDto) => {
   const category = categoriesRepo.create({
     name: createCategoryDto.name,
     slug: createCategoryDto.slug,
-    parent: {
-      id: parent.id,
-    },
+    ...(parent && {
+      parent: {
+        id: parent.id,
+      },
+    }),
   });
 
   return await categoriesRepo.save(category);
