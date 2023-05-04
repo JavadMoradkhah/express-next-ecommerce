@@ -2,6 +2,7 @@ require('dotenv').config();
 import 'reflect-metadata';
 import express, { Request, Response, NextFunction } from 'express';
 import helmet from 'helmet';
+import morgan from 'morgan';
 import { AppDataSource } from './config/database';
 import categoryRouter from './routes/categories.router';
 import { StatusCode } from './enums/status-code.enum';
@@ -10,6 +11,10 @@ import { StatusCodeName } from './enums/status-code-name.enum';
 
 const app = express();
 const port = parseInt(process.env.PORT, 10) ?? 5000;
+
+if (app.get('env') === 'development') {
+  app.use(morgan('tiny'));
+}
 
 app.use(helmet());
 app.use(express.json());
