@@ -1,3 +1,4 @@
+require('dotenv').config();
 import { DataSource } from 'typeorm';
 import { Category } from '../entities/category.entity';
 import { Admin } from '../entities/admin.entity';
