@@ -10,3 +10,21 @@ export const AppDataSource = new DataSource({
   entities: [],
   synchronize: process.env.NODE_ENV !== 'production',
 });
+
+process.on('exit', async () => {
+  console.log('Closing TypeORM connection...');
+  await AppDataSource.destroy();
+});
+
+process.on('SIGINT', async () => {
+  console.log('Closing TypeORM connection...');
+  await AppDataSource.destroy();
+  process.exit(0);
+});
+
+process.on('unhandledRejection', async (err) => {
+  console.error('Unhandled rejection:', err);
+  console.log('Closing TypeORM connection...');
+  await AppDataSource.destroy();
+  process.exit(1);
+});
