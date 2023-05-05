@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { StatusCode } from '../enums/status-code.enum';
 import { StatusCodeName } from '../enums/status-code-name.enum';
 
-type RequestHandler = (req: Request, res: Response) => Promise<any>;
+type RequestHandler = (req: Request, res: Response) => any;
 
 export default function (handler: RequestHandler, statusCode?: StatusCode) {
   return async (req: Request, res: Response, next: NextFunction) => {
