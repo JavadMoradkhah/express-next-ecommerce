@@ -5,12 +5,16 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
+import passport from 'passport';
 import { AppDataSource } from './config/database';
 import categoryRouter from './routes/categories.router';
+import adminLocalStrategy from './auth/strategies/admin-local.strategy';
+import * as adminController from './controllers/admins.controller';
 import { StatusCode } from './enums/status-code.enum';
 import { HttpException } from './common/exceptions';
 import { StatusCodeName } from './enums/status-code-name.enum';
 import { getRedisClient } from './config/redis';
+import { SessionAdminUser } from './interfaces';
 
 const app = express();
 const port = parseInt(process.env.PORT, 10) ?? 5000;
@@ -30,6 +34,26 @@ app.use(
   })
 );
 app.use(cookieParser());
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use('ADMIN_LOCAL_STRATEGY', adminLocalStrategy);
+
+passport.serializeUser((user: any, cb: any) => {
+  cb(null, user.id);
+});
+
+passport.deserializeUser(async (id: string, cb) => {
+  const admin = await adminController.findOne(id);
+
+  const user: SessionAdminUser = {
+    id: admin.id,
+    username: admin.username,
+    role: admin.role,
+  };
+
+  cb(null, user);
+});
 
 app.get('/api/', (req: Request, res: Response, next: NextFunction) => {
   res.status(200).send('Hello World');
