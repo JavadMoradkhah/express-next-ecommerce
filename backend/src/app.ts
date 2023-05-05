@@ -3,6 +3,7 @@ import 'reflect-metadata';
 import express, { Request, Response, NextFunction } from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import session from 'express-session';
 import { AppDataSource } from './config/database';
 import categoryRouter from './routes/categories.router';
 import { StatusCode } from './enums/status-code.enum';
@@ -20,6 +21,13 @@ if (app.get('env') === 'development') {
 
 app.use(helmet());
 app.use(express.json());
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: true,
+    saveUninitialized: true,
+  })
+);
 
 app.get('/api/', (req: Request, res: Response, next: NextFunction) => {
   res.status(200).send('Hello World');
