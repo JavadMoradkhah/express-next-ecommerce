@@ -8,6 +8,7 @@ import cookieParser from 'cookie-parser';
 import passport from 'passport';
 import { AppDataSource } from './config/database';
 import categoryRouter from './routes/categories.router';
+import authRouter from './routes/auth.router';
 import adminLocalStrategy from './auth/strategies/admin-local.strategy';
 import * as adminController from './controllers/admins.controller';
 import { StatusCode } from './enums/status-code.enum';
@@ -60,6 +61,7 @@ app.get('/api/', (req: Request, res: Response, next: NextFunction) => {
 });
 
 app.use('/api/categories', categoryRouter);
+app.use('/api/auth', authRouter);
 
 app.use((error: any, req: Request, res: Response, next: NextFunction) => {
   console.error(error);
