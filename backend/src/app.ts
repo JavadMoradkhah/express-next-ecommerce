@@ -4,6 +4,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import session from 'express-session';
+import cookieParser from 'cookie-parser';
 import { AppDataSource } from './config/database';
 import categoryRouter from './routes/categories.router';
 import { StatusCode } from './enums/status-code.enum';
@@ -28,6 +29,7 @@ app.use(
     saveUninitialized: true,
   })
 );
+app.use(cookieParser());
 
 app.get('/api/', (req: Request, res: Response, next: NextFunction) => {
   res.status(200).send('Hello World');
