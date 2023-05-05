@@ -8,3 +8,8 @@ export interface CreateAdminDto {
 }
 
 export interface UpdateAdminDto extends Partial<Pick<CreateAdminDto, 'email' | 'password'>> {}
+
+export interface LoginAdminDto {
+  username: string;
+  password: string;
+}
