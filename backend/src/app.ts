@@ -3,6 +3,7 @@ import 'reflect-metadata';
 import express, { Request, Response, NextFunction } from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import RedisStore from 'connect-redis';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import passport from 'passport';
@@ -32,6 +33,9 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    store: new RedisStore({
+      client: redisClient,
+    }),
   })
 );
 app.use(cookieParser());
