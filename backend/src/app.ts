@@ -13,6 +13,7 @@ import categoryRouter from './routes/categories.router';
 import colorRouter from './routes/colors.router';
 import authRouter from './routes/auth.router';
 import countryRouter from './routes/countries.router';
+import sizeRouter from './routes/sizes.router';
 import shippingMethodRouter from './routes/shipping-methods.router';
 import adminLocalStrategy from './auth/strategies/admin-local.strategy';
 import * as adminController from './controllers/admins.controller';
@@ -85,6 +86,7 @@ app.use('/api/categories', categoryRouter);
 app.use('/api/colors', colorRouter);
 app.use('/api/countries', countryRouter);
 app.use('/api/shipping-methods', shippingMethodRouter);
+app.use('/api/sizes', sizeRouter);
 app.use('/api/auth', authRouter);
 
 app.use('/public', express.static(path.resolve(process.cwd(), 'public')));
