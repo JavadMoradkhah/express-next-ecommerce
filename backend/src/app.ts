@@ -15,6 +15,7 @@ import authRouter from './routes/auth.router';
 import countryRouter from './routes/countries.router';
 import sizeRouter from './routes/sizes.router';
 import shippingMethodRouter from './routes/shipping-methods.router';
+import uploadsRouter from './routes/uploads.router';
 import adminLocalStrategy from './auth/strategies/admin-local.strategy';
 import * as adminController from './controllers/admins.controller';
 import { StatusCode } from './enums/status-code.enum';
@@ -88,6 +89,7 @@ app.use('/api/colors', colorRouter);
 app.use('/api/countries', countryRouter);
 app.use('/api/shipping-methods', shippingMethodRouter);
 app.use('/api/sizes', sizeRouter);
+app.use('/api/uploads', uploadsRouter);
 app.use('/api/auth', authRouter);
 
 app.use('/public', express.static(path.resolve(process.cwd(), 'public')));
