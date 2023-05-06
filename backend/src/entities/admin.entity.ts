@@ -1,5 +1,6 @@
 import {
   BeforeInsert,
+  BeforeUpdate,
   Column,
   CreateDateColumn,
   Entity,
@@ -32,6 +33,11 @@ export class Admin {
   @BeforeInsert()
   async hashPassword() {
     this.password = await bcrypt.hash(this.password, 12);
+  }
+
+  @BeforeUpdate()
+  async hashTotpSecret() {
+    this.totpSecret = await bcrypt.hash(this.totpSecret, 12);
   }
 
   @Column({ type: 'enum', enum: [Role.SUPER_ADMIN] })
