@@ -96,7 +96,19 @@ app.use('/api/auth', authRouter);
 
 app.use('/public', express.static(path.resolve(process.cwd(), 'public')));
 
-app.use((error: any, req: Request, res: Response, next: NextFunction) => {
+app.use(async (error: any, req: Request, res: Response, next: NextFunction) => {
+  if (req.file) {
+    try {
+      await fs.unlink(req.file.path);
+    } catch (error) {
+      return res.status(StatusCode.INTERNAL_SERVER_ERROR).json({
+        statusCode: StatusCode.INTERNAL_SERVER_ERROR,
+        message: StatusCodeName?.[500],
+        error: StatusCodeName?.[500],
+      });
+    }
+  }
+
   if (error instanceof MulterError) {
     return res.status(StatusCode.BAD_REQUEST).json({
       statusCode: StatusCode.BAD_REQUEST,
