@@ -1,5 +1,6 @@
 require('dotenv').config();
 import 'reflect-metadata';
+import * as path from 'path';
 import express, { Request, Response, NextFunction } from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
@@ -79,6 +80,8 @@ app.get('/api/', (req: Request, res: Response, next: NextFunction) => {
 
 app.use('/api/categories', categoryRouter);
 app.use('/api/auth', authRouter);
+
+app.use('/public', express.static(path.resolve(process.cwd(), 'public')));
 
 app.use((error: any, req: Request, res: Response, next: NextFunction) => {
   console.error(error);
