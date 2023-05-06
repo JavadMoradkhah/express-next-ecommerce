@@ -3,3 +3,4 @@ export * from './color.entity';
 export * from './admin.entity';
 export * from './country.entity';
 export * from './shipping-method.entity';
+export * from './size.entity';
