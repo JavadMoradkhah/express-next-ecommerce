@@ -1,4 +1,4 @@
-import { Role } from '../entities/admin.entity';
+import { Role } from '../entities';
 
 export interface CreateAdminDto {
   username: string;

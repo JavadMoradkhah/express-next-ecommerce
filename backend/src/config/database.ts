@@ -1,8 +1,6 @@
 require('dotenv').config();
 import { DataSource } from 'typeorm';
-import { Category } from '../entities/category.entity';
-import { Admin } from '../entities/admin.entity';
-import { Color } from '../entities/color.entity';
+import { Category, Admin, Color } from '../entities/';
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
