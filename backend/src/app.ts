@@ -12,6 +12,7 @@ import { AppDataSource } from './config/database';
 import categoryRouter from './routes/categories.router';
 import colorRouter from './routes/colors.router';
 import authRouter from './routes/auth.router';
+import countryRouter from './routes/countries.router';
 import adminLocalStrategy from './auth/strategies/admin-local.strategy';
 import * as adminController from './controllers/admins.controller';
 import { StatusCode } from './enums/status-code.enum';
@@ -81,6 +82,7 @@ app.get('/api/', (req: Request, res: Response, next: NextFunction) => {
 
 app.use('/api/categories', categoryRouter);
 app.use('/api/colors', colorRouter);
+app.use('/api/countries', countryRouter);
 app.use('/api/auth', authRouter);
 
 app.use('/public', express.static(path.resolve(process.cwd(), 'public')));
