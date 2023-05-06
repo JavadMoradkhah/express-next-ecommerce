@@ -26,6 +26,9 @@ export class Admin {
   @Column({ type: 'varchar', length: 255 })
   password: string;
 
+  @Column({ name: 'totp_secret', type: 'varchar', length: 255, nullable: true })
+  totpSecret?: string;
+
   @BeforeInsert()
   async hashPassword() {
     this.password = await bcrypt.hash(this.password, 12);
