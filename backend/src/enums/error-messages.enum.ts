@@ -20,6 +20,7 @@ const enum ErrorMessages {
   PRODUCT_IMAGE_NOT_FOUND = 'The product image was not found with the given id',
   // Uploaded Image
   FILE_NOT_FOUND = 'The file was not found with the given id',
+  FILE_TYPE_NOT_ALLOWED = 'The uploaded file type is not allowed',
   // Shipping Method
   SHIPPING_METHOD_NOT_FOUND = 'The shipping method was not found with the given id',
   SHIPPING_METHOD_ALREADY_EXISTS = 'A shipping method already exists with the given name',
