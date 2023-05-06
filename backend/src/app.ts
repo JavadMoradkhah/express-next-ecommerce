@@ -1,6 +1,7 @@
 require('dotenv').config();
 import 'reflect-metadata';
 import * as path from 'path';
+import fs from 'fs/promises';
 import express, { Request, Response, NextFunction } from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
@@ -23,6 +24,7 @@ import { HttpException } from './common/exceptions';
 import { StatusCodeName } from './enums/status-code-name.enum';
 import { getRedisClient } from './config/redis';
 import { SessionAdminUser } from './interfaces';
+import { MulterError } from 'multer';
 
 const app = express();
 const port = parseInt(process.env.PORT, 10) ?? 5000;
@@ -95,6 +97,14 @@ app.use('/api/auth', authRouter);
 app.use('/public', express.static(path.resolve(process.cwd(), 'public')));
 
 app.use((error: any, req: Request, res: Response, next: NextFunction) => {
+  if (error instanceof MulterError) {
+    return res.status(StatusCode.BAD_REQUEST).json({
+      statusCode: StatusCode.BAD_REQUEST,
+      message: error.message,
+      error: StatusCodeName[400],
+    });
+  }
+
   if (error instanceof HttpException) {
     return res.status(error.statusCode).json({
       statusCode: error.statusCode,
