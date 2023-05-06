@@ -4,3 +4,4 @@ export * from './admin.entity';
 export * from './country.entity';
 export * from './shipping-method.entity';
 export * from './size.entity';
+export * from './upload.entity';
