@@ -5,7 +5,7 @@ import { CreateColorDto, UpdateColorDto } from '../dto';
 import { StatusCode } from '../enums/status-code.enum';
 import idValidator from '../middleware/id-validator';
 import schemaValidator from '../middleware/schema-validator';
-import { createSchema, updateSchema } from '../schemas/colors.schema';
+import { createSchema, updateSchema } from '../schemas/color.schema';
 import adminAuth from '../middleware/admin-auth';
 
 const router = Router();
