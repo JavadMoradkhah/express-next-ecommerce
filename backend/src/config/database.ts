@@ -1,6 +1,15 @@
 require('dotenv').config();
 import { DataSource } from 'typeorm';
-import { Category, Admin, Color, Country, ShippingMethod, Size, Upload } from '../entities/';
+import {
+  Category,
+  Admin,
+  Color,
+  Country,
+  ShippingMethod,
+  Size,
+  Upload,
+  Product,
+} from '../entities/';
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
@@ -9,7 +18,7 @@ export const AppDataSource = new DataSource({
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  entities: [Category, Admin, Color, Country, ShippingMethod, Size, Upload],
+  entities: [Category, Admin, Color, Country, ShippingMethod, Size, Upload, Product],
   synchronize: process.env.NODE_ENV !== 'production',
   migrations: ['dist/migrations/*.js'],
 });
