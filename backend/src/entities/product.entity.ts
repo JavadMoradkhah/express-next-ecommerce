@@ -4,7 +4,7 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
-  OneToOne,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -14,7 +14,7 @@ export class Product {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @OneToOne(() => Category, (category) => category.id)
+  @ManyToOne(() => Category, (category) => category.id, { cascade: false })
   @JoinColumn({ name: 'category_id' })
   category: Category;
 
