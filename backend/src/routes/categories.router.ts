@@ -6,6 +6,7 @@ import { StatusCode } from '../enums/status-code.enum';
 import idValidator from '../middleware/id-validator';
 import schemaValidator from '../middleware/schema-validator';
 import { createSchema, updateSchema } from '../schemas/category.schema';
+import adminAuth from '../middleware/admin-auth';
 
 const router = Router();
 
@@ -26,6 +27,7 @@ router.get(
 
 router.post(
   '/',
+  adminAuth(),
   schemaValidator(createSchema),
   routeHandler((req: Request, res: Response) => {
     return create(req.body as CreateCategoryDto);
@@ -34,6 +36,7 @@ router.post(
 
 router.patch(
   '/:id',
+  adminAuth(),
   idValidator(),
   schemaValidator(updateSchema),
   routeHandler((req: Request, res: Response) => {
@@ -43,6 +46,7 @@ router.patch(
 
 router.delete(
   '/:id',
+  adminAuth(),
   idValidator(),
   routeHandler((req: Request, res: Response) => {
     return remove(req.params.id);
