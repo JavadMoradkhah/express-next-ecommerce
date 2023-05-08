@@ -6,3 +6,4 @@ export * from './shipping-method.dto';
 export * from './size.dto';
 export * from './upload.dto';
 export * from './product.dto';
+export * from './product-image.dto';
