@@ -14,6 +14,7 @@ const schema: Record<keyof CreateProductDto, Joi.AnySchema> = {
 export const updateSchema = Joi.object<UpdateProductDto>(schema);
 
 export const createSchema = Joi.object<CreateProductDto>({
+  ...schema,
   category: schema.category.required(),
   title: schema.title.required(),
   description: schema.description.required(),
