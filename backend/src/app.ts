@@ -3,13 +3,8 @@ import 'reflect-metadata';
 import * as path from 'path';
 import fs from 'fs/promises';
 import express, { Request, Response, NextFunction } from 'express';
-import helmet from 'helmet';
-import morgan from 'morgan';
-import session from 'express-session';
-import cookieParser from 'cookie-parser';
 import passport from 'passport';
 import { AppDataSource } from './config/database';
-import sessionOptions from './config/session-options';
 import authRouter from './routes/auth.router';
 import categoryRouter from './routes/categories.router';
 import colorRouter from './routes/colors.router';
@@ -27,20 +22,13 @@ import { StatusCodeName } from './enums/status-code-name.enum';
 import { getRedisClient } from './config/redis';
 import { SessionAdminUser } from './interfaces';
 import { MulterError } from 'multer';
+import middleware from './bootstrap/middleware';
 
 const app = express();
 const port = parseInt(process.env.PORT, 10) ?? 5000;
 const redisClient = getRedisClient();
 
-if (app.get('env') === 'development') {
-  app.use(morgan('tiny'));
-}
-
-app.use(helmet());
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(session(sessionOptions(redisClient)));
-app.use(cookieParser());
+middleware(app, redisClient);
 app.use(passport.initialize());
 app.use(passport.session());
 
