@@ -10,9 +10,9 @@ import cookieParser from 'cookie-parser';
 import passport from 'passport';
 import { AppDataSource } from './config/database';
 import sessionOptions from './config/session-options';
+import authRouter from './routes/auth.router';
 import categoryRouter from './routes/categories.router';
 import colorRouter from './routes/colors.router';
-import authRouter from './routes/auth.router';
 import countryRouter from './routes/countries.router';
 import sizeRouter from './routes/sizes.router';
 import shippingMethodRouter from './routes/shipping-methods.router';
@@ -66,6 +66,7 @@ app.get('/api/', (req: Request, res: Response, next: NextFunction) => {
   res.status(200).send('Hello World');
 });
 
+app.use('/api/auth', authRouter);
 app.use('/api/categories', categoryRouter);
 app.use('/api/colors', colorRouter);
 app.use('/api/countries', countryRouter);
@@ -74,7 +75,6 @@ app.use('/api/sizes', sizeRouter);
 app.use('/api/uploads', uploadsRouter);
 app.use('/api/products', productsRouter);
 app.use('/api/product-images', productImagesRouter);
-app.use('/api/auth', authRouter);
 
 app.use('/public', express.static(path.resolve(process.cwd(), 'public')));
 
