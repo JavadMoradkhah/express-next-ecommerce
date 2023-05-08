@@ -3,7 +3,6 @@ import 'reflect-metadata';
 import * as path from 'path';
 import fs from 'fs/promises';
 import express, { Request, Response, NextFunction } from 'express';
-import passport from 'passport';
 import { AppDataSource } from './config/database';
 import appRouter from './routes/app.router';
 import authRouter from './routes/auth.router';
@@ -15,41 +14,20 @@ import shippingMethodRouter from './routes/shipping-methods.router';
 import uploadsRouter from './routes/uploads.router';
 import productsRouter from './routes/products.router';
 import productImagesRouter from './routes/product-images.router';
-import adminLocalStrategy from './auth/strategies/admin-local.strategy';
-import * as adminController from './controllers/admins.controller';
 import { StatusCode } from './enums/status-code.enum';
 import { HttpException } from './common/exceptions';
 import { StatusCodeName } from './enums/status-code-name.enum';
 import { getRedisClient } from './config/redis';
-import { SessionAdminUser } from './interfaces';
 import { MulterError } from 'multer';
 import middleware from './bootstrap/middleware';
+import auth from './bootstrap/auth';
 
 const app = express();
 const port = parseInt(process.env.PORT, 10) ?? 5000;
 const redisClient = getRedisClient();
 
 middleware(app, redisClient);
-app.use(passport.initialize());
-app.use(passport.session());
-
-passport.use('ADMIN_LOCAL_STRATEGY', adminLocalStrategy);
-
-passport.serializeUser((user: any, cb: any) => {
-  cb(null, user.id);
-});
-
-passport.deserializeUser(async (id: string, cb) => {
-  const admin = await adminController.findOne(id);
-
-  const user: SessionAdminUser = {
-    id: admin.id,
-    username: admin.username,
-    role: admin.role,
-  };
-
-  cb(null, user);
-});
+auth(app);
 
 app.use('/api/', appRouter);
 app.use('/api/auth', authRouter);
