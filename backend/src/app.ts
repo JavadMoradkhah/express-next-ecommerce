@@ -5,6 +5,7 @@ import fs from 'fs/promises';
 import express, { Request, Response, NextFunction } from 'express';
 import passport from 'passport';
 import { AppDataSource } from './config/database';
+import appRouter from './routes/app.router';
 import authRouter from './routes/auth.router';
 import categoryRouter from './routes/categories.router';
 import colorRouter from './routes/colors.router';
@@ -50,10 +51,7 @@ passport.deserializeUser(async (id: string, cb) => {
   cb(null, user);
 });
 
-app.get('/api/', (req: Request, res: Response, next: NextFunction) => {
-  res.status(200).send('Hello World');
-});
-
+app.use('/api/', appRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/categories', categoryRouter);
 app.use('/api/colors', colorRouter);
