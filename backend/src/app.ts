@@ -10,7 +10,7 @@ import { getRedisClient } from './config/redis';
 import { MulterError } from 'multer';
 import middleware from './bootstrap/middleware';
 import auth from './bootstrap/auth';
-import routes from './bootstrap/routes';
+import appRouter from './routes/app.router';
 
 const app = express();
 const port = parseInt(process.env.PORT, 10) ?? 5000;
@@ -18,7 +18,8 @@ const redisClient = getRedisClient();
 
 middleware(app, redisClient);
 auth(app);
-routes(app);
+
+app.use(appRouter);
 
 app.use(async (error: any, req: Request, res: Response, next: NextFunction) => {
   if (req.file) {
