@@ -9,6 +9,7 @@ import {
   Size,
   Upload,
   Product,
+  ProductImage,
 } from '../entities/';
 
 export const AppDataSource = new DataSource({
@@ -18,7 +19,7 @@ export const AppDataSource = new DataSource({
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  entities: [Category, Admin, Color, Country, ShippingMethod, Size, Upload, Product],
+  entities: [Category, Admin, Color, Country, ShippingMethod, Size, Upload, Product, ProductImage],
   synchronize: process.env.NODE_ENV !== 'production',
   migrations: ['dist/migrations/*.js'],
 });
