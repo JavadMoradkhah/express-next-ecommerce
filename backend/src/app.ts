@@ -1,19 +1,8 @@
 require('dotenv').config();
 import 'reflect-metadata';
-import * as path from 'path';
 import fs from 'fs/promises';
 import express, { Request, Response, NextFunction } from 'express';
 import { AppDataSource } from './config/database';
-import appRouter from './routes/app.router';
-import authRouter from './routes/auth.router';
-import categoryRouter from './routes/categories.router';
-import colorRouter from './routes/colors.router';
-import countryRouter from './routes/countries.router';
-import sizeRouter from './routes/sizes.router';
-import shippingMethodRouter from './routes/shipping-methods.router';
-import uploadsRouter from './routes/uploads.router';
-import productsRouter from './routes/products.router';
-import productImagesRouter from './routes/product-images.router';
 import { StatusCode } from './enums/status-code.enum';
 import { HttpException } from './common/exceptions';
 import { StatusCodeName } from './enums/status-code-name.enum';
@@ -21,6 +10,7 @@ import { getRedisClient } from './config/redis';
 import { MulterError } from 'multer';
 import middleware from './bootstrap/middleware';
 import auth from './bootstrap/auth';
+import routes from './bootstrap/routes';
 
 const app = express();
 const port = parseInt(process.env.PORT, 10) ?? 5000;
@@ -28,19 +18,7 @@ const redisClient = getRedisClient();
 
 middleware(app, redisClient);
 auth(app);
-
-app.use('/api/', appRouter);
-app.use('/api/auth', authRouter);
-app.use('/api/categories', categoryRouter);
-app.use('/api/colors', colorRouter);
-app.use('/api/countries', countryRouter);
-app.use('/api/shipping-methods', shippingMethodRouter);
-app.use('/api/sizes', sizeRouter);
-app.use('/api/uploads', uploadsRouter);
-app.use('/api/products', productsRouter);
-app.use('/api/product-images', productImagesRouter);
-
-app.use('/public', express.static(path.resolve(process.cwd(), 'public')));
+routes(app);
 
 app.use(async (error: any, req: Request, res: Response, next: NextFunction) => {
   if (req.file) {
