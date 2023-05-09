@@ -31,6 +31,7 @@ const enum ErrorMessages {
   INVALID_USERNAME_OR_PASSWORD = 'The given username or password is invalid',
   INVALID_USER_CREDENTIALS = 'The given credentials are invalid',
   LOGIN_REQUIRED = 'To access this resource you must be logged in',
+  EMAIL_CONFLICT = 'The given email has already been taken',
   // Server Error
   UNEXPECTED_ERROR = 'An unexpected error occurred during processing the request',
   FORBIDDEN_RESOURCE = "You don't have permission to access this resource",
