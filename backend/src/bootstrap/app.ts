@@ -13,9 +13,7 @@ let app = null;
 
 export const createApp = (): Express => {
   if (app !== null) {
-    throw new Error(
-      'An instance of the application has already been created!'
-    );
+    throw new Error('An instance of the application has already been created!');
   }
 
   app = express();
