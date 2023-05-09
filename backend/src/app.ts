@@ -1,22 +1,34 @@
 require('dotenv').config();
 import 'reflect-metadata';
-import express from 'express';
+import { createApp } from './bootstrap/app';
 import { AppDataSource } from './config/database';
 import { getRedisClient } from './config/redis';
-import middleware from './bootstrap/middleware';
-import auth from './bootstrap/auth';
-import appRouter from './routes/app.router';
-import errorsMiddleware from './middleware/errors';
+import passport from 'passport';
+import adminLocalStrategy from './auth/strategies/admin-local.strategy';
+import * as adminController from './controllers/admins.controller';
+import { SessionAdminUser } from './interfaces';
 
-const app = express();
+const app = createApp();
 const port = parseInt(process.env.PORT, 10) ?? 5000;
 const redisClient = getRedisClient();
 
-middleware(app, redisClient);
-auth(app);
+passport.use('ADMIN_LOCAL_STRATEGY', adminLocalStrategy);
 
-app.use(appRouter);
-app.use(errorsMiddleware);
+passport.serializeUser((user: any, cb: any) => {
+  cb(null, user.id);
+});
+
+passport.deserializeUser(async (id: string, cb) => {
+  const admin = await adminController.findOne(id);
+
+  const user: SessionAdminUser = {
+    id: admin.id,
+    username: admin.username,
+    role: admin.role,
+  };
+
+  cb(null, user);
+});
 
 app.listen(port, async () => {
   try {
