@@ -7,3 +7,4 @@ export * from './sizes.repo';
 export * from './uploads.repo';
 export * from './products.repo';
 export * from './product-images.repo';
+export * from './users.repo';
