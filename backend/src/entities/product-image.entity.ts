@@ -4,7 +4,6 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -22,7 +21,7 @@ export class ProductImage {
   @JoinColumn({ name: 'product_id' })
   product: Product;
 
-  @OneToOne(() => Upload, (upload) => upload.id, {
+  @ManyToOne(() => Upload, (upload) => upload.id, {
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'image_id' })
