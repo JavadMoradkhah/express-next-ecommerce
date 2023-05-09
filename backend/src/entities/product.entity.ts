@@ -5,9 +5,11 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { ProductImage } from './product-image.entity';
 
 @Entity({ name: 'products' })
 export class Product {
@@ -35,6 +37,9 @@ export class Product {
 
   @Column({ type: 'boolean', default: true })
   orderable: boolean;
+
+  @OneToMany(() => ProductImage, (productImage) => productImage.product)
+  images: ProductImage[];
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
