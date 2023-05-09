@@ -8,3 +8,5 @@ export interface CreateUserDto {
 export interface UpdateUserDto extends Partial<CreateUserDto> {
   emailVerifiedAt?: Date;
 }
+
+export interface LoginDto extends Pick<CreateUserDto, 'email' | 'password'> {}
