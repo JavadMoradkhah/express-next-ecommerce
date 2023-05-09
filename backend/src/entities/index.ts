@@ -7,3 +7,4 @@ export * from './size.entity';
 export * from './upload.entity';
 export * from './product.entity';
 export * from './product-image.entity';
+export * from './user.entity';
