@@ -33,6 +33,7 @@ const enum ErrorMessages {
   LOGIN_REQUIRED = 'To access this resource you must be logged in',
   // Server Error
   UNEXPECTED_ERROR = 'An unexpected error occurred during processing the request',
+  FORBIDDEN_RESOURCE = "You don't have permission to access this resource",
 }
 
 export default ErrorMessages;
