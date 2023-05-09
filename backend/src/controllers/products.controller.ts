@@ -12,6 +12,19 @@ export const findAll = async () => {
       title: true,
       price: true,
       discount: true,
+      images: {
+        id: true,
+        image: {
+          imageUrl: true,
+          alt: true,
+        },
+        isMain: true,
+      },
+    },
+    relations: {
+      images: {
+        image: true,
+      },
     },
     order: {
       updatedAt: 'DESC',
@@ -32,6 +45,9 @@ export const findOne = async (id: string, includeRelations = false) => {
     ...(includeRelations && {
       relations: {
         category: true,
+        images: {
+          image: true,
+        },
       },
     }),
   });
