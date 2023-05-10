@@ -11,6 +11,7 @@ import {
   Product,
   ProductImage,
   User,
+  EmailVerification,
 } from '../entities/';
 
 export const AppDataSource = new DataSource({
@@ -31,6 +32,7 @@ export const AppDataSource = new DataSource({
     Product,
     ProductImage,
     User,
+    EmailVerification,
   ],
   synchronize: process.env.NODE_ENV !== 'production',
   migrations: ['dist/migrations/*.js'],
