@@ -1,3 +1,4 @@
+import { Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
 import { transporter } from '../config/mail';
 import { EmailVerification } from '../entities';
@@ -7,9 +8,12 @@ import { AppDataSource } from '../config/database';
 import { BadRequestException } from '../common/exceptions';
 import ErrorMessages from '../enums/error-messages.enum';
 import { error } from 'console';
+import { VerificationDto } from '../dto';
 
-export const sendVerificationEmail = async (email: string) => {
-  const user = await usersRepo.findOneBy({ email });
+export const sendVerificationEmail = async (req: Request, res: Response) => {
+  const verificationDto = req.body as VerificationDto;
+
+  const user = await usersRepo.findOneBy({ email: verificationDto.email });
 
   if (!user) {
     throw new BadRequestException(ErrorMessages.SIGNUP_REQUIRED_FOR_EMAIL_VERIFICATION);

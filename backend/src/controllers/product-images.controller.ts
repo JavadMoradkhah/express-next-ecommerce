@@ -1,11 +1,14 @@
+import { Request, Response } from 'express';
 import { NotFoundException } from '../common/exceptions';
 import { CreateProductImageDto, UpdateProductImageDto } from '../dto';
 import { productImagesRepo } from '../repositories';
 import * as productsController from './products.controller';
 import * as uploadsController from './uploads.controller';
+import { StatusCode } from '../enums/status-code.enum';
+import { ResponsePayload } from '../interfaces/response-payload';
 import ErrorMessages from '../enums/error-messages.enum';
 
-export const findOne = async (id: string) => {
+export const findOrFail = async (id: string) => {
   const productImage = await productImagesRepo.findOneBy({ id });
 
   if (!productImage) {
@@ -15,10 +18,23 @@ export const findOne = async (id: string) => {
   return productImage;
 };
 
-export const create = async (createImageDto: CreateProductImageDto) => {
-  const product = await productsController.findOne(createImageDto.product);
+export const findOne = async (req: Request, res: Response) => {
+  const id = req.params.id;
 
-  const image = await uploadsController.findOne(createImageDto.image);
+  const productImage = await findOrFail(id);
+
+  res.status(StatusCode.OK).json({
+    statusCode: StatusCode.OK,
+    data: productImage,
+  } as ResponsePayload);
+};
+
+export const create = async (req: Request, res: Response) => {
+  const createImageDto = req.body as CreateProductImageDto;
+
+  const product = await productsController.findOrFail(createImageDto.product);
+
+  const image = await uploadsController.findOrFail(createImageDto.image);
 
   // Check whether the uploaded image is marked as the product main image or not
   if (createImageDto.isMain) {
@@ -36,7 +52,7 @@ export const create = async (createImageDto: CreateProductImageDto) => {
     }
   }
 
-  const productImage = productImagesRepo.create({
+  let productImage = productImagesRepo.create({
     product: {
       id: product.id,
     },
@@ -46,18 +62,39 @@ export const create = async (createImageDto: CreateProductImageDto) => {
     isMain: createImageDto.isMain,
   });
 
-  return await productImagesRepo.save(productImage);
+  productImage = await productImagesRepo.save(productImage);
+
+  res.status(StatusCode.CREATED).json({
+    statusCode: StatusCode.CREATED,
+    data: productImage,
+  } as ResponsePayload);
 };
 
-export const update = async (id: string, { isMain }: UpdateProductImageDto) => {
-  const image = await findOne(id);
+export const update = async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const { isMain } = req.body as UpdateProductImageDto;
+
+  const image = await findOrFail(id);
 
   image.isMain = isMain;
 
-  return await productImagesRepo.save(image);
+  const productImage = await productImagesRepo.save(image);
+
+  res.status(StatusCode.OK).json({
+    statusCode: StatusCode.OK,
+    data: productImage,
+  } as ResponsePayload);
 };
 
-export const remove = async (id: string) => {
-  const productImage = await findOne(id);
+export const remove = async (req: Request, res: Response) => {
+  const id = req.params.id;
+
+  const productImage = await findOrFail(id);
+
   await productImagesRepo.remove(productImage);
+
+  res.status(StatusCode.NO_CONTENT).json({
+    statusCode: StatusCode.NO_CONTENT,
+    data: null,
+  } as ResponsePayload);
 };

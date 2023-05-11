@@ -19,7 +19,7 @@ passport.serializeUser((user: any, cb: any) => {
 });
 
 passport.deserializeUser(async (id: string, cb) => {
-  const admin = await adminController.findOne(id);
+  const admin = await adminController.findOrFail(id);
 
   const user: SessionAdminUser = {
     id: admin.id,

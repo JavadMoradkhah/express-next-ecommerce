@@ -10,3 +10,7 @@ export interface UpdateUserDto extends Partial<CreateUserDto> {
 }
 
 export interface LoginDto extends Pick<CreateUserDto, 'email' | 'password'> {}
+
+export interface VerificationDto {
+  email: string;
+}

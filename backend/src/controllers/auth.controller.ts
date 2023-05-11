@@ -1,13 +1,14 @@
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import * as bcrypt from 'bcrypt';
 import { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken';
-import { Request } from 'express';
 import { adminsRepo, emailVerificationsRepo, usersRepo } from '../repositories';
 import { SessionAdminUser } from '../interfaces';
 import { CreateUserDto } from '../dto';
 import { BadRequestException, ConflictException } from '../common/exceptions';
 import { verifyToken } from '../common/app-utils';
 import ErrorMessages from '../enums/error-messages.enum';
+import { StatusCode } from '../enums/status-code.enum';
+import { ResponsePayload } from '../interfaces/response-payload';
 
 export const validateAdminCredentials = async (
   username: string,
@@ -30,25 +31,34 @@ export const loginAdmin = async (req: Request) => {
   return req.user;
 };
 
-export const registerUser = async (createUserDto: CreateUserDto, res: Response) => {
+export const registerUser = async (req: Request, res: Response) => {
+  const createUserDto = req.body as CreateUserDto;
+
   const userExists = await usersRepo.exist({ where: { email: createUserDto.email } });
 
   if (userExists) {
     throw new ConflictException(ErrorMessages.EMAIL_CONFLICT);
   }
 
-  const user = usersRepo.create({
-    firstName: createUserDto.firstName,
-    lastName: createUserDto.lastName,
-    email: createUserDto.email,
-    password: createUserDto.password,
-  });
+  await usersRepo.save(
+    usersRepo.create({
+      firstName: createUserDto.firstName,
+      lastName: createUserDto.lastName,
+      email: createUserDto.email,
+      password: createUserDto.password,
+    })
+  );
 
-  return await usersRepo.save(user);
+  res.status(StatusCode.CREATED).json({
+    statusCode: StatusCode.CREATED,
+    data: null,
+  } as ResponsePayload);
 };
 
-export const verifyUser = async (token: string) => {
+export const verifyUser = async (req: Request, res: Response) => {
   try {
+    const token = req.params['token'];
+
     const { sub } = await verifyToken(token, process.env.EMAIL_VERIFICATION_TOKEN_SECRET);
 
     const emailVerification = await emailVerificationsRepo.findOne({
@@ -73,7 +83,10 @@ export const verifyUser = async (token: string) => {
     await usersRepo.update({ id: sub }, { emailVerifiedAt: new Date() });
     await emailVerificationsRepo.remove(emailVerification);
 
-    return 'OK';
+    res.status(StatusCode.OK).json({
+      statusCode: StatusCode.OK,
+      data: null,
+    } as ResponsePayload);
   } catch (error) {
     if (error instanceof TokenExpiredError) {
       throw new BadRequestException(ErrorMessages.EMAIL_VERIFICATION_EXPIRED);

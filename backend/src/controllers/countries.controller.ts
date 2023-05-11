@@ -1,19 +1,25 @@
+import { Request, Response } from 'express';
 import { ConflictException, NotFoundException } from '../common/exceptions';
 import { CreateCountryDto, UpdateCountryDto } from '../dto';
 import { countriesRepo } from '../repositories';
+import { StatusCode } from '../enums/status-code.enum';
+import { ResponsePayload } from '../interfaces/response-payload';
 import ErrorMessages from '../enums/error-messages.enum';
 
-export const findAll = async () => {
+export const findAll = async (req: Request, res: Response) => {
   const countries = await countriesRepo.find({
     order: {
       name: 'ASC',
     },
   });
 
-  return countries;
+  res.status(StatusCode.OK).json({
+    statusCode: StatusCode.OK,
+    data: countries,
+  } as ResponsePayload);
 };
 
-export const findOne = async (id: string) => {
+export const findOrFail = async (id: string) => {
   const country = await countriesRepo.findOneBy({ id });
 
   if (!country) {
@@ -23,29 +29,63 @@ export const findOne = async (id: string) => {
   return country;
 };
 
-export const create = async ({ name }: CreateCountryDto) => {
-  await checkConflicts(name);
+export const findOne = async (req: Request, res: Response) => {
+  const id = req.params.id;
 
-  const country = countriesRepo.create({
-    name: name,
-  });
+  const country = await findOrFail(id);
 
-  return await countriesRepo.save(country);
+  res.status(StatusCode.OK).json({
+    statusCode: StatusCode.OK,
+    data: country,
+  } as ResponsePayload);
 };
 
-export const update = async (id: string, { name }: UpdateCountryDto) => {
-  const country = await findOne(id);
+export const create = async (req: Request, res: Response) => {
+  const { name } = req.body as CreateCountryDto;
+
+  await checkConflicts(name);
+
+  const country = await countriesRepo.save(
+    countriesRepo.create({
+      name: name,
+    })
+  );
+
+  res.status(StatusCode.CREATED).json({
+    statusCode: StatusCode.CREATED,
+    data: country,
+  } as ResponsePayload);
+};
+
+export const update = async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const { name } = req.body as UpdateCountryDto;
+
+  let country = await findOrFail(id);
 
   await checkConflicts(name);
 
   country.name = name;
 
-  return await countriesRepo.save(country);
+  country = await countriesRepo.save(country);
+
+  res.status(StatusCode.OK).json({
+    statusCode: StatusCode.OK,
+    data: country,
+  } as ResponsePayload);
 };
 
-export const remove = async (id: string) => {
-  const country = await findOne(id);
+export const remove = async (req: Request, res: Response) => {
+  const id = req.params.id;
+
+  const country = await findOrFail(id);
+
   await countriesRepo.remove(country);
+
+  res.status(StatusCode.NO_CONTENT).json({
+    statusCode: StatusCode.NO_CONTENT,
+    data: null,
+  } as ResponsePayload);
 };
 
 async function checkConflicts(name: string): Promise<void | never> {

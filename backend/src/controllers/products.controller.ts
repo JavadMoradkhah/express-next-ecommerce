@@ -1,11 +1,14 @@
+import { Request, Response } from 'express';
 import { NotFoundException } from '../common/exceptions';
 import { CreateProductDto, UpdateProductDto } from '../dto';
 import { productsRepo } from '../repositories';
 import * as categoriesController from './categories.controller';
-import ErrorMessages from '../enums/error-messages.enum';
 import { Category, Product } from '../entities';
+import ErrorMessages from '../enums/error-messages.enum';
+import { StatusCode } from '../enums/status-code.enum';
+import { ResponsePayload } from '../interfaces/response-payload';
 
-export const findAll = async () => {
+export const findAll = async (req: Request, res: Response) => {
   const products = await productsRepo.find({
     select: {
       id: true,
@@ -34,10 +37,13 @@ export const findAll = async () => {
     },
   });
 
-  return products;
+  res.status(StatusCode.OK).json({
+    statusCode: StatusCode.OK,
+    data: products,
+  } as ResponsePayload);
 };
 
-export const findOne = async (id: string, includeRelations = false) => {
+export const findOrFail = async (id: string, includeRelations = false) => {
   const product = await productsRepo.findOne({
     where: {
       id,
@@ -59,12 +65,25 @@ export const findOne = async (id: string, includeRelations = false) => {
   return product;
 };
 
-export const create = async (createProductDto: CreateProductDto) => {
+export const findOne = async (req: Request, res: Response) => {
+  const id = req.params.id;
+
+  const product = await findOrFail(id);
+
+  res.status(StatusCode.OK).json({
+    statusCode: StatusCode.OK,
+    data: product,
+  } as ResponsePayload);
+};
+
+export const create = async (req: Request, res: Response) => {
+  const createProductDto = req.body as CreateProductDto;
+
   const { title, description, price, discount, orderable, orderLimit } = createProductDto;
 
-  const category = await categoriesController.findOne(createProductDto.category);
+  const category = await categoriesController.findOrFail(createProductDto.category);
 
-  const product = new Product();
+  let product = new Product();
   product.category = category;
   product.title = title;
   product.description = description;
@@ -73,18 +92,25 @@ export const create = async (createProductDto: CreateProductDto) => {
   product.orderable = orderable;
   product.orderLimit = orderLimit;
 
-  return await productsRepo.save(product);
+  product = await productsRepo.save(product);
+
+  res.status(StatusCode.CREATED).json({
+    statusCode: StatusCode.CREATED,
+    data: product,
+  } as ResponsePayload);
 };
 
-export const update = async (id: string, updateProductDto: UpdateProductDto) => {
+export const update = async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const updateProductDto = req.body as UpdateProductDto;
   let category: Category = null;
 
   const { title, description, price, discount, orderable, orderLimit } = updateProductDto;
 
-  const product = await findOne(id);
+  let product = await findOrFail(id);
 
   if (updateProductDto.category) {
-    category = await categoriesController.findOne(updateProductDto.category);
+    category = await categoriesController.findOrFail(updateProductDto.category);
 
     product.category = category;
   }
@@ -96,10 +122,23 @@ export const update = async (id: string, updateProductDto: UpdateProductDto) => 
   if (orderable !== undefined) product.orderable = orderable;
   if (orderLimit !== undefined) product.orderLimit = orderLimit;
 
-  return await productsRepo.save(product);
+  product = await productsRepo.save(product);
+
+  res.status(StatusCode.OK).json({
+    statusCode: StatusCode.OK,
+    data: product,
+  } as ResponsePayload);
 };
 
-export const remove = async (id: string) => {
-  const product = await findOne(id);
+export const remove = async (req: Request, res: Response) => {
+  const id = req.params.id;
+
+  const product = await findOrFail(id);
+
   await productsRepo.remove(product);
+
+  res.status(StatusCode.NO_CONTENT).json({
+    statusCode: StatusCode.NO_CONTENT,
+    data: null,
+  } as ResponsePayload);
 };
