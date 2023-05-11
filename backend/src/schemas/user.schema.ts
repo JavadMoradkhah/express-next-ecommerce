@@ -20,4 +20,8 @@ export const loginSchema = Joi.object<LoginDto>({
   password: Joi.string().required(),
 });
 
+export const verificationSchema = Joi.object({
+  email: Joi.string().email().required(),
+});
+
 export const updateSchema = Joi.object<UpdateUserDto>(schema);
