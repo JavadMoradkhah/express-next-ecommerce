@@ -32,6 +32,8 @@ const enum ErrorMessages {
   INVALID_USER_CREDENTIALS = 'The given credentials are invalid',
   LOGIN_REQUIRED = 'To access this resource you must be logged in',
   EMAIL_CONFLICT = 'The given email has already been taken',
+  EMAIL_VERIFICATION_EXPIRED = 'Sorry, it looks like your email confirmation link has expired. Please request a new one to continue.',
+  INVALID_EMAIL_VERIFICATION_LINK = 'Sorry, we could not verify your account with the provided link. Please make sure you are using the correct link and try again. If you continue to have issues, please request a new email verification link.',
   // Server Error
   UNEXPECTED_ERROR = 'An unexpected error occurred during processing the request',
   FORBIDDEN_RESOURCE = "You don't have permission to access this resource",
