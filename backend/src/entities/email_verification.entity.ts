@@ -33,7 +33,7 @@ export class EmailVerification {
 
   @BeforeInsert()
   setExpiration() {
-    this.expiresIn = new Date(new Date().getTime() + 1000 * 60 * 15);
+    this.expiresIn = new Date(new Date().getTime() + 1000 * 60 * 60);
   }
 
   @CreateDateColumn({ name: 'created_at' })
