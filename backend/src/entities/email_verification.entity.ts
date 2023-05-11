@@ -8,7 +8,6 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import * as bcrypt from 'bcrypt';
 import { User } from './user.entity';
 
 @Entity({ name: 'email_verifications' })
@@ -22,11 +21,6 @@ export class EmailVerification {
 
   @Column({ type: 'varchar', length: 255 })
   otp: string;
-
-  @BeforeInsert()
-  async hashOtp() {
-    this.otp = await bcrypt.hash(this.otp, 10);
-  }
 
   @Column({ name: 'expires_in', type: 'timestamp' })
   expiresIn: Date;
