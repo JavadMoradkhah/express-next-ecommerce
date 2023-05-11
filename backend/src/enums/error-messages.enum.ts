@@ -34,6 +34,7 @@ const enum ErrorMessages {
   EMAIL_CONFLICT = 'The given email has already been taken',
   EMAIL_VERIFICATION_EXPIRED = 'Sorry, it looks like your email confirmation link has expired. Please request a new one to continue.',
   INVALID_EMAIL_VERIFICATION_LINK = 'Sorry, we could not verify your account with the provided link. Please make sure you are using the correct link and try again. If you continue to have issues, please request a new email verification link.',
+  SIGNUP_REQUIRED_FOR_EMAIL_VERIFICATION = 'You must sign up first in order to verify your email',
   // Server Error
   UNEXPECTED_ERROR = 'An unexpected error occurred during processing the request',
   FORBIDDEN_RESOURCE = "You don't have permission to access this resource",
