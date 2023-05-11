@@ -7,8 +7,9 @@ import { emailVerificationsRepo, usersRepo } from '../repositories';
 import { AppDataSource } from '../config/database';
 import { BadRequestException } from '../common/exceptions';
 import ErrorMessages from '../enums/error-messages.enum';
-import { error } from 'console';
 import { VerificationDto } from '../dto';
+import { StatusCode } from '../enums/status-code.enum';
+import { ResponsePayload } from '../interfaces/response-payload';
 
 export const sendVerificationEmail = async (req: Request, res: Response) => {
   const verificationDto = req.body as VerificationDto;
@@ -56,8 +57,13 @@ export const sendVerificationEmail = async (req: Request, res: Response) => {
       </div>`,
     });
 
-    return 'Message sent: ' + info.messageId;
-  } catch (err) {
+    console.log('Message sent: ' + info.messageId);
+
+    res.status(StatusCode.OK).json({
+      statusCode: StatusCode.OK,
+      message: 'A verification email was sent to your email address',
+    } as ResponsePayload);
+  } catch (error) {
     await queryRunner.rollbackTransaction();
     throw error;
   } finally {
