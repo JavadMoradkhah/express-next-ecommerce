@@ -1,33 +1,54 @@
 require('dotenv').config();
 import 'reflect-metadata';
+import passport from 'passport';
 import { createApp } from './bootstrap/app';
 import { AppDataSource } from './config/database';
 import { getRedisClient } from './config/redis';
-import passport from 'passport';
-import adminLocalStrategy from './auth/strategies/admin-local.strategy';
+import * as adminLocalStrategy from './auth/strategies/admin-local.strategy';
+import * as userLocalStrategy from './auth/strategies/user-local.strategy';
 import * as adminController from './controllers/admins.controller';
-import { SessionAdminUser } from './interfaces';
+import * as usersController from './controllers/users.controller';
+import { SessionAdminUser, SessionUser } from './interfaces';
+import { AdminRoles } from './entities';
+import { CookieUser } from './interfaces/cookie-user';
 
 const app = createApp();
 const port = parseInt(process.env.PORT, 10) ?? 5000;
 const redisClient = getRedisClient();
 
-passport.use('ADMIN_LOCAL_STRATEGY', adminLocalStrategy);
+passport.use(adminLocalStrategy.name, adminLocalStrategy.strategy);
+passport.use(userLocalStrategy.name, userLocalStrategy.strategy);
 
 passport.serializeUser((user: any, cb: any) => {
-  cb(null, user.id);
+  cb(null, {
+    id: user.id,
+    isAdmin: user?.role && AdminRoles.includes(user.role),
+  });
 });
 
-passport.deserializeUser(async (id: string, cb) => {
-  const admin = await adminController.findOrFail(id);
+passport.deserializeUser(async (cookieUser: CookieUser, cb) => {
+  if (cookieUser.isAdmin) {
+    const user = await adminController.findOrFail(cookieUser.id);
 
-  const user: SessionAdminUser = {
-    id: admin.id,
-    username: admin.username,
-    role: admin.role,
+    const sessionAdminUser: SessionAdminUser = {
+      id: user.id,
+      username: user.username,
+      role: user.role,
+    };
+
+    return cb(null, sessionAdminUser);
+  }
+
+  const user = await usersController.findOrFail(cookieUser.id);
+
+  const sessionUser: SessionUser = {
+    id: user.id,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
   };
 
-  cb(null, user);
+  cb(null, sessionUser);
 });
 
 app.listen(port, async () => {
