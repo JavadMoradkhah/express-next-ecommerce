@@ -6,9 +6,10 @@ import { SessionAdminUser } from '../interfaces';
 import { CreateUserDto } from '../dto';
 import { BadRequestException, ConflictException } from '../common/exceptions';
 import { verifyToken } from '../common/app-utils';
-import ErrorMessages from '../enums/error-messages.enum';
 import { StatusCode } from '../enums/status-code.enum';
 import { ResponsePayload } from '../interfaces/response-payload';
+import ErrorMessages from '../enums/error-messages.enum';
+import { User } from '../entities';
 
 export const validateAdminCredentials = async (
   username: string,
@@ -38,6 +39,13 @@ export const validateUserCredentials = async (
   }
 
   return null;
+};
+
+export const loginAdmin = async (req: Request, res: Response) => {
+  res.status(StatusCode.OK).json({
+    statusCode: StatusCode.OK,
+    data: null,
+  } as ResponsePayload);
 };
 
 export const loginUser = async (req: Request, res: Response) => {
