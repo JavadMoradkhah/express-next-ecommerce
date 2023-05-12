@@ -27,6 +27,19 @@ export const validateAdminCredentials = async (
   return null;
 };
 
+export const validateUserCredentials = async (
+  email: string,
+  password: string
+): Promise<User | null> => {
+  const user = await usersRepo.findOneBy({ email });
+
+  if (user && (await bcrypt.compare(password, user.password))) {
+    return user;
+  }
+
+  return null;
+};
+
 export const loginUser = async (req: Request, res: Response) => {
   res.status(StatusCode.OK).json({
     statusCode: StatusCode.OK,
