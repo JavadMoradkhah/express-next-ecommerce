@@ -13,6 +13,8 @@ export const enum Role {
   SUPER_ADMIN = 'super_admin',
 }
 
+export const AdminRoles = [Role.SUPER_ADMIN];
+
 @Entity({ name: 'admins' })
 export class Admin {
   @PrimaryGeneratedColumn('uuid')
