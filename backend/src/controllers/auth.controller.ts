@@ -27,8 +27,11 @@ export const validateAdminCredentials = async (
   return null;
 };
 
-export const loginAdmin = async (req: Request) => {
-  return req.user;
+export const loginUser = async (req: Request, res: Response) => {
+  res.status(StatusCode.OK).json({
+    statusCode: StatusCode.OK,
+    data: null,
+  } as ResponsePayload);
 };
 
 export const registerUser = async (req: Request, res: Response) => {
