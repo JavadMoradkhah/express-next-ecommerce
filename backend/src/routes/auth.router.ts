@@ -1,5 +1,6 @@
 import { Router, Request, Response } from 'express';
 import passport from 'passport';
+import * as adminLocalStrategy from '../auth/strategies/admin-local.strategy';
 import routeHandler from '../middleware/route-handler';
 import schemaValidator from '../middleware/schema-validator';
 import { loginSchema as adminLoginSchema } from '../schemas/admin.schema';
@@ -13,7 +14,7 @@ const router = Router();
 router.post(
   '/admin/login',
   schemaValidator(adminLoginSchema),
-  passport.authenticate('ADMIN_LOCAL_STRATEGY'),
+  passport.authenticate(adminLocalStrategy.name),
   routeHandler(loginAdmin)
 );
 
