@@ -4,7 +4,9 @@ import { UnauthorizedException } from '../../common/exceptions';
 import { SessionAdminUser } from '../../interfaces';
 import ErrorMessages from '../../enums/error-messages.enum';
 
-export default new LocalStrategy(async (username: string, password: string, done) => {
+export const name = 'ADMIN_LOCAL_STRATEGY';
+
+export const strategy = new LocalStrategy(async (username: string, password: string, done) => {
   const admin: SessionAdminUser = await validateAdminCredentials(username, password);
 
   if (!admin) {
