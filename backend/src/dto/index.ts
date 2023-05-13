@@ -8,3 +8,4 @@ export * from './upload.dto';
 export * from './product.dto';
 export * from './product-image.dto';
 export * from './user.dto';
+export * from './variation.dto';
