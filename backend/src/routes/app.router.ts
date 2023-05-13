@@ -9,6 +9,7 @@ import shippingMethodRouter from '../routes/shipping-methods.router';
 import uploadsRouter from '../routes/uploads.router';
 import productsRouter from '../routes/products.router';
 import productImagesRouter from '../routes/product-images.router';
+import variationsRouter from '../routes/variations.router';
 
 const router = Router();
 
@@ -25,6 +26,7 @@ router.use('/api/sizes', sizeRouter);
 router.use('/api/uploads', uploadsRouter);
 router.use('/api/products', productsRouter);
 router.use('/api/product-images', productImagesRouter);
+router.use('/api/variations', variationsRouter);
 
 router.use('/public', express.static(path.resolve(process.cwd(), 'public')));
 
