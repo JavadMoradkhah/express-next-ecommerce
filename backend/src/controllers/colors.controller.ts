@@ -1,25 +1,19 @@
-import { Request, Response } from 'express';
 import { ConflictException, NotFoundException } from '../common/exceptions';
 import { colorsRepo } from '../repositories';
 import { CreateColorDto, UpdateColorDto } from '../dto';
-import { StatusCode } from '../enums/status-code.enum';
-import { ResponsePayload } from '../interfaces/response-payload';
 import ErrorMessages from '../enums/error-messages.enum';
 
-export const findAll = async (req: Request, res: Response) => {
+export const findAll = async () => {
   const colors = await colorsRepo.find({
     order: {
       name: 'ASC',
     },
   });
 
-  res.status(StatusCode.OK).json({
-    statusCode: StatusCode.OK,
-    data: colors,
-  } as ResponsePayload);
+  return colors;
 };
 
-export const findOrFail = async (id: string) => {
+export const findOne = async (id: string) => {
   const color = await colorsRepo.findOne({
     where: {
       id,
@@ -33,20 +27,7 @@ export const findOrFail = async (id: string) => {
   return color;
 };
 
-export const findOne = async (req: Request, res: Response) => {
-  const id = req.params.id;
-
-  const color = await findOrFail(id);
-
-  res.status(StatusCode.OK).json({
-    statusCode: StatusCode.OK,
-    data: color,
-  } as ResponsePayload);
-};
-
-export const create = async (req: Request, res: Response) => {
-  const createColorDto = req.body as CreateColorDto;
-
+export const create = async (createColorDto: CreateColorDto) => {
   const exists = await colorsRepo.exist({
     where: [{ name: createColorDto.name }, { code: createColorDto.code }],
   });
@@ -62,17 +43,11 @@ export const create = async (req: Request, res: Response) => {
     })
   );
 
-  res.status(StatusCode.OK).json({
-    statusCode: StatusCode.OK,
-    data: color,
-  } as ResponsePayload);
+  return color;
 };
 
-export const update = async (req: Request, res: Response) => {
-  const id = req.params.id;
-  const updateColorDto = req.body as UpdateColorDto;
-
-  let color = await findOrFail(id);
+export const update = async (id: string, updateColorDto: UpdateColorDto) => {
+  let color = await findOne(id);
 
   const exists = await colorsRepo.exist({
     where: [{ name: updateColorDto.name }, { code: updateColorDto.code }],
@@ -87,21 +62,10 @@ export const update = async (req: Request, res: Response) => {
 
   color = await colorsRepo.save(color);
 
-  res.status(StatusCode.OK).json({
-    statusCode: StatusCode.OK,
-    data: color,
-  } as ResponsePayload);
+  return color;
 };
 
-export const remove = async (req: Request, res: Response) => {
-  const id = req.params.id;
-
-  const color = await findOrFail(id);
-
+export const remove = async (id: string) => {
+  const color = await findOne(id);
   await colorsRepo.remove(color);
-
-  res.status(StatusCode.NO_CONTENT).json({
-    statusCode: StatusCode.NO_CONTENT,
-    data: null,
-  } as ResponsePayload);
 };

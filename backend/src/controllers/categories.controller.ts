@@ -1,14 +1,11 @@
-import { Request, Response } from 'express';
 import { IsNull } from 'typeorm';
 import { Category } from '../entities/category.entity';
 import { ConflictException, NotFoundException } from '../common/exceptions';
 import { categoriesRepo } from '../repositories';
 import { CreateCategoryDto, UpdateCategoryDto } from '../dto';
-import { StatusCode } from '../enums/status-code.enum';
-import { ResponsePayload } from '../interfaces/response-payload';
 import ErrorMessages from '../enums/error-messages.enum';
 
-export const findAll = async (req: Request, res: Response) => {
+export const findAll = async () => {
   const categories = await categoriesRepo.find({
     select: {
       id: true,
@@ -24,13 +21,10 @@ export const findAll = async (req: Request, res: Response) => {
     },
   });
 
-  res.status(StatusCode.OK).json({
-    statusCode: StatusCode.OK,
-    data: categories,
-  } as ResponsePayload);
+  return categories;
 };
 
-export const findOrFail = async (id: string) => {
+export const findOne = async (id: string) => {
   const category = await categoriesRepo.findOne({
     where: {
       id,
@@ -44,24 +38,11 @@ export const findOrFail = async (id: string) => {
   return category;
 };
 
-export const findOne = async (req: Request, res: Response) => {
-  const id = req.params.id;
-
-  const category = await findOrFail(id);
-
-  res.status(StatusCode.OK).json({
-    statusCode: StatusCode.OK,
-    data: category,
-  } as ResponsePayload);
-};
-
-export const create = async (req: Request, res: Response) => {
-  const createCategoryDto = req.body as CreateCategoryDto;
-
+export const create = async (createCategoryDto: CreateCategoryDto) => {
   let parent: Category = null;
 
   if (createCategoryDto.parent) {
-    parent = await findOrFail(createCategoryDto.parent);
+    parent = await findOne(createCategoryDto.parent);
   }
 
   const exists = await categoriesRepo.exist({
@@ -84,23 +65,16 @@ export const create = async (req: Request, res: Response) => {
     })
   );
 
-  res.status(StatusCode.CREATED).json({
-    statusCode: StatusCode.CREATED,
-    data: category,
-  } as ResponsePayload);
+  return category;
 };
 
-export const update = async (req: Request, res: Response) => {
-  const id = req.params.id;
-
-  const updateCategoryDto = req.body as UpdateCategoryDto;
-
+export const update = async (id: string, updateCategoryDto: UpdateCategoryDto) => {
   let parent: Category = null;
 
-  let category = await findOrFail(id);
+  let category = await findOne(id);
 
   if (updateCategoryDto.parent) {
-    parent = await findOrFail(updateCategoryDto.parent);
+    parent = await findOne(updateCategoryDto.parent);
 
     category.parent = parent;
   }
@@ -121,21 +95,10 @@ export const update = async (req: Request, res: Response) => {
 
   category = await categoriesRepo.save(category);
 
-  res.status(StatusCode.OK).json({
-    statusCode: StatusCode.OK,
-    data: category,
-  } as ResponsePayload);
+  return category;
 };
 
-export const remove = async (req: Request, res: Response) => {
-  const id = req.params.id;
-
-  const category = await findOrFail(id);
-
+export const remove = async (id: string) => {
+  const category = await findOne(id);
   await categoriesRepo.remove(category);
-
-  res.status(StatusCode.NO_CONTENT).json({
-    statusCode: StatusCode.NO_CONTENT,
-    data: null,
-  } as ResponsePayload);
 };

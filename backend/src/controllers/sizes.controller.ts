@@ -1,25 +1,19 @@
-import { Request, Response } from 'express';
 import { ConflictException, NotFoundException } from '../common/exceptions';
 import { CreateSizeDto, UpdateSizeDto } from '../dto';
 import { sizesRepo } from '../repositories/sizes.repo';
-import { StatusCode } from '../enums/status-code.enum';
-import { ResponsePayload } from '../interfaces/response-payload';
 import ErrorMessages from '../enums/error-messages.enum';
 
-export const findAll = async (req: Request, res: Response) => {
+export const findAll = async () => {
   const sizes = await sizesRepo.find({
     order: {
       createdAt: 'DESC',
     },
   });
 
-  res.status(StatusCode.OK).json({
-    statusCode: StatusCode.OK,
-    data: sizes,
-  } as ResponsePayload);
+  return sizes;
 };
 
-export const findOrFail = async (id: string) => {
+export const findOne = async (id: string) => {
   const size = await sizesRepo.findOneBy({ id });
 
   if (!size) {
@@ -29,20 +23,7 @@ export const findOrFail = async (id: string) => {
   return size;
 };
 
-export const findOne = async (req: Request, res: Response) => {
-  const id = req.params.id;
-
-  const size = await findOrFail(id);
-
-  res.status(StatusCode.OK).json({
-    statusCode: StatusCode.OK,
-    data: size,
-  } as ResponsePayload);
-};
-
-export const create = async (req: Request, res: Response) => {
-  const createSizeDto = req.body as CreateSizeDto;
-
+export const create = async (createSizeDto: CreateSizeDto) => {
   const exists = await sizesRepo.findOneBy({
     value: createSizeDto.value,
   });
@@ -57,17 +38,11 @@ export const create = async (req: Request, res: Response) => {
 
   size = await sizesRepo.save(size);
 
-  res.status(StatusCode.CREATED).json({
-    statusCode: StatusCode.CREATED,
-    data: size,
-  } as ResponsePayload);
+  return size;
 };
 
-export const update = async (req: Request, res: Response) => {
-  const id = req.params.id;
-  const updateSizeDto = req.body as UpdateSizeDto;
-
-  let size = await findOrFail(id);
+export const update = async (id: string, updateSizeDto: UpdateSizeDto) => {
+  let size = await findOne(id);
 
   const exists = await sizesRepo.findOneBy({
     value: updateSizeDto.value,
@@ -81,21 +56,10 @@ export const update = async (req: Request, res: Response) => {
 
   size = await sizesRepo.save(size);
 
-  res.status(StatusCode.OK).json({
-    statusCode: StatusCode.OK,
-    data: size,
-  } as ResponsePayload);
+  return size;
 };
 
-export const remove = async (req: Request, res: Response) => {
-  const id = req.params.id;
-
-  const size = await findOrFail(id);
-
+export const remove = async (id: string) => {
+  const size = await findOne(id);
   await sizesRepo.remove(size);
-
-  res.status(StatusCode.NO_CONTENT).json({
-    statusCode: StatusCode.NO_CONTENT,
-    data: null,
-  } as ResponsePayload);
 };

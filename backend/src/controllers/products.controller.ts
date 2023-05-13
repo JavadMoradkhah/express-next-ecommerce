@@ -1,14 +1,11 @@
-import { Request, Response } from 'express';
 import { NotFoundException } from '../common/exceptions';
 import { CreateProductDto, UpdateProductDto } from '../dto';
 import { productsRepo } from '../repositories';
 import * as categoriesController from './categories.controller';
 import { Category, Product } from '../entities';
 import ErrorMessages from '../enums/error-messages.enum';
-import { StatusCode } from '../enums/status-code.enum';
-import { ResponsePayload } from '../interfaces/response-payload';
 
-export const findAll = async (req: Request, res: Response) => {
+export const findAll = async () => {
   const products = await productsRepo.find({
     select: {
       id: true,
@@ -37,13 +34,10 @@ export const findAll = async (req: Request, res: Response) => {
     },
   });
 
-  res.status(StatusCode.OK).json({
-    statusCode: StatusCode.OK,
-    data: products,
-  } as ResponsePayload);
+  return products;
 };
 
-export const findOrFail = async (id: string, includeRelations = false) => {
+export const findOne = async (id: string, includeRelations = false) => {
   const product = await productsRepo.findOne({
     where: {
       id,
@@ -65,23 +59,10 @@ export const findOrFail = async (id: string, includeRelations = false) => {
   return product;
 };
 
-export const findOne = async (req: Request, res: Response) => {
-  const id = req.params.id;
-
-  const product = await findOrFail(id);
-
-  res.status(StatusCode.OK).json({
-    statusCode: StatusCode.OK,
-    data: product,
-  } as ResponsePayload);
-};
-
-export const create = async (req: Request, res: Response) => {
-  const createProductDto = req.body as CreateProductDto;
-
+export const create = async (createProductDto: CreateProductDto) => {
   const { title, description, price, discount, orderable, orderLimit } = createProductDto;
 
-  const category = await categoriesController.findOrFail(createProductDto.category);
+  const category = await categoriesController.findOne(createProductDto.category);
 
   let product = new Product();
   product.category = category;
@@ -94,23 +75,18 @@ export const create = async (req: Request, res: Response) => {
 
   product = await productsRepo.save(product);
 
-  res.status(StatusCode.CREATED).json({
-    statusCode: StatusCode.CREATED,
-    data: product,
-  } as ResponsePayload);
+  return product;
 };
 
-export const update = async (req: Request, res: Response) => {
-  const id = req.params.id;
-  const updateProductDto = req.body as UpdateProductDto;
+export const update = async (id: string, updateProductDto: UpdateProductDto) => {
   let category: Category = null;
 
   const { title, description, price, discount, orderable, orderLimit } = updateProductDto;
 
-  let product = await findOrFail(id);
+  let product = await findOne(id);
 
   if (updateProductDto.category) {
-    category = await categoriesController.findOrFail(updateProductDto.category);
+    category = await categoriesController.findOne(updateProductDto.category);
 
     product.category = category;
   }
@@ -124,21 +100,10 @@ export const update = async (req: Request, res: Response) => {
 
   product = await productsRepo.save(product);
 
-  res.status(StatusCode.OK).json({
-    statusCode: StatusCode.OK,
-    data: product,
-  } as ResponsePayload);
+  return product;
 };
 
-export const remove = async (req: Request, res: Response) => {
-  const id = req.params.id;
-
-  const product = await findOrFail(id);
-
+export const remove = async (id: string) => {
+  const product = await findOne(id);
   await productsRepo.remove(product);
-
-  res.status(StatusCode.NO_CONTENT).json({
-    statusCode: StatusCode.NO_CONTENT,
-    data: null,
-  } as ResponsePayload);
 };

@@ -2,7 +2,7 @@ import { usersRepo } from '../repositories';
 import { BadRequestException } from '../common/exceptions';
 import ErrorMessages from '../enums/error-messages.enum';
 
-export const findOrFail = async (id: string) => {
+export const findOne = async (id: string) => {
   const admin = await usersRepo.findOne({
     where: { id },
     select: {

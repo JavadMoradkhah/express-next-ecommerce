@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request } from 'express';
 import * as bcrypt from 'bcrypt';
 import { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken';
 import { adminsRepo, emailVerificationsRepo, usersRepo } from '../repositories';
@@ -6,8 +6,6 @@ import { SessionAdminUser } from '../interfaces';
 import { CreateUserDto } from '../dto';
 import { BadRequestException, ConflictException } from '../common/exceptions';
 import { verifyToken } from '../common/app-utils';
-import { StatusCode } from '../enums/status-code.enum';
-import { ResponsePayload } from '../interfaces/response-payload';
 import ErrorMessages from '../enums/error-messages.enum';
 import { User } from '../entities';
 
@@ -41,23 +39,15 @@ export const validateUserCredentials = async (
   return null;
 };
 
-export const loginAdmin = async (req: Request, res: Response) => {
-  res.status(StatusCode.OK).json({
-    statusCode: StatusCode.OK,
-    data: null,
-  } as ResponsePayload);
+export const loginAdmin = async (req: Request) => {
+  return null;
 };
 
-export const loginUser = async (req: Request, res: Response) => {
-  res.status(StatusCode.OK).json({
-    statusCode: StatusCode.OK,
-    data: null,
-  } as ResponsePayload);
+export const loginUser = async (req: Request) => {
+  return null;
 };
 
-export const registerUser = async (req: Request, res: Response) => {
-  const createUserDto = req.body as CreateUserDto;
-
+export const registerUser = async (createUserDto: CreateUserDto) => {
   const userExists = await usersRepo.exist({ where: { email: createUserDto.email } });
 
   if (userExists) {
@@ -73,16 +63,11 @@ export const registerUser = async (req: Request, res: Response) => {
     })
   );
 
-  res.status(StatusCode.CREATED).json({
-    statusCode: StatusCode.CREATED,
-    data: null,
-  } as ResponsePayload);
+  return null;
 };
 
-export const verifyUser = async (req: Request, res: Response) => {
+export const verifyUser = async (token: string) => {
   try {
-    const token = req.params['token'];
-
     const { sub } = await verifyToken(token, process.env.EMAIL_VERIFICATION_TOKEN_SECRET);
 
     const emailVerification = await emailVerificationsRepo.findOne({
@@ -107,10 +92,7 @@ export const verifyUser = async (req: Request, res: Response) => {
     await usersRepo.update({ id: sub }, { emailVerifiedAt: new Date() });
     await emailVerificationsRepo.remove(emailVerification);
 
-    res.status(StatusCode.OK).json({
-      statusCode: StatusCode.OK,
-      data: null,
-    } as ResponsePayload);
+    return null;
   } catch (error) {
     if (error instanceof TokenExpiredError) {
       throw new BadRequestException(ErrorMessages.EMAIL_VERIFICATION_EXPIRED);

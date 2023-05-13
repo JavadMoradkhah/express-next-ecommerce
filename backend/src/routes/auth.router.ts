@@ -9,6 +9,8 @@ import { createSchema, loginSchema, verificationSchema } from '../schemas/user.s
 import { loginAdmin, loginUser, registerUser, verifyUser } from '../controllers/auth.controller';
 import adminAuth from '../middleware/admin-auth';
 import { sendVerificationEmail } from '../controllers/email-verifications.controller';
+import { CreateUserDto, VerificationDto } from '../dto';
+import { StatusCode } from '../enums/status-code.enum';
 
 const router = Router();
 
@@ -16,14 +18,24 @@ router.post(
   '/admin/login',
   schemaValidator(adminLoginSchema),
   passport.authenticate(adminLocalStrategy.name),
-  routeHandler(loginAdmin)
+  routeHandler(
+    (req: Request, res: Response) => {
+      return loginAdmin(req);
+    },
+    { statusCode: StatusCode.OK }
+  )
 );
 
 router.post(
   '/login',
   schemaValidator(loginSchema),
   passport.authenticate(userLocalStrategy.name),
-  routeHandler(loginUser)
+  routeHandler(
+    (req: Request, res: Response) => {
+      return loginUser(req);
+    },
+    { statusCode: StatusCode.OK }
+  )
 );
 
 router.get(
@@ -34,10 +46,30 @@ router.get(
   })
 );
 
-router.post('/signup', schemaValidator(createSchema), routeHandler(registerUser));
+router.post(
+  '/signup',
+  schemaValidator(createSchema),
+  routeHandler((req: Request, res: Response) => {
+    return registerUser(req.body as CreateUserDto);
+  })
+);
 
-router.post('/verify', schemaValidator(verificationSchema), routeHandler(sendVerificationEmail));
+router.post(
+  '/verify',
+  schemaValidator(verificationSchema),
+  routeHandler(
+    (req: Request, res: Response) => {
+      return sendVerificationEmail(req.body as VerificationDto);
+    },
+    { statusCode: StatusCode.OK }
+  )
+);
 
-router.get('/verify/:token', routeHandler(verifyUser));
+router.get(
+  '/verify/:token',
+  routeHandler((req: Request, res: Response) => {
+    return verifyUser(req.params['token']);
+  })
+);
 
 export default router;

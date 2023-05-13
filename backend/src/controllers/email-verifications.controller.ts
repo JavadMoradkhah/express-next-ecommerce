@@ -1,4 +1,3 @@
-import { Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
 import { transporter } from '../config/mail';
 import { EmailVerification } from '../entities';
@@ -8,12 +7,8 @@ import { AppDataSource } from '../config/database';
 import { BadRequestException } from '../common/exceptions';
 import ErrorMessages from '../enums/error-messages.enum';
 import { VerificationDto } from '../dto';
-import { StatusCode } from '../enums/status-code.enum';
-import { ResponsePayload } from '../interfaces/response-payload';
 
-export const sendVerificationEmail = async (req: Request, res: Response) => {
-  const verificationDto = req.body as VerificationDto;
-
+export const sendVerificationEmail = async (verificationDto: VerificationDto) => {
   const user = await usersRepo.findOneBy({ email: verificationDto.email });
 
   if (!user) {
@@ -59,10 +54,7 @@ export const sendVerificationEmail = async (req: Request, res: Response) => {
 
     console.log('Message sent: ' + info.messageId);
 
-    res.status(StatusCode.OK).json({
-      statusCode: StatusCode.OK,
-      message: 'A verification email was sent to your email address',
-    } as ResponsePayload);
+    return 'A verification email was sent to your email address';
   } catch (error) {
     await queryRunner.rollbackTransaction();
     throw error;

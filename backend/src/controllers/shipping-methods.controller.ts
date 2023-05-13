@@ -1,25 +1,19 @@
-import { Request, Response } from 'express';
 import { ConflictException, NotFoundException } from '../common/exceptions';
 import { CreateShippingMethodDto, UpdateShippingMethodDto } from '../dto';
 import { shippingMethodsRepo } from '../repositories';
-import { StatusCode } from '../enums/status-code.enum';
-import { ResponsePayload } from '../interfaces/response-payload';
 import ErrorMessages from '../enums/error-messages.enum';
 
-export const findAll = async (req: Request, res: Response) => {
+export const findAll = async () => {
   const shippingMethods = await shippingMethodsRepo.find({
     order: {
       price: 'ASC',
     },
   });
 
-  res.status(StatusCode.OK).json({
-    statusCode: StatusCode.OK,
-    data: shippingMethods,
-  } as ResponsePayload);
+  return shippingMethods;
 };
 
-export const findOrFail = async (id: string) => {
+export const findOne = async (id: string) => {
   const shippingMethod = await shippingMethodsRepo.findOneBy({ id });
 
   if (!shippingMethod) {
@@ -29,20 +23,7 @@ export const findOrFail = async (id: string) => {
   return shippingMethod;
 };
 
-export const findOne = async (req: Request, res: Response) => {
-  const id = req.params.id;
-
-  const shippingMethod = await findOrFail(id);
-
-  res.status(StatusCode.OK).json({
-    statusCode: StatusCode.OK,
-    data: shippingMethod,
-  } as ResponsePayload);
-};
-
-export const create = async (req: Request, res: Response) => {
-  const { name, price } = req.body as CreateShippingMethodDto;
-
+export const create = async ({ name, price }: CreateShippingMethodDto) => {
   const exists = await shippingMethodsRepo.findOneBy({
     name,
   });
@@ -58,39 +39,21 @@ export const create = async (req: Request, res: Response) => {
 
   shippingMethod = await shippingMethodsRepo.save(shippingMethod);
 
-  res.status(StatusCode.CREATED).json({
-    statusCode: StatusCode.CREATED,
-    data: shippingMethod,
-  } as ResponsePayload);
+  return shippingMethod;
 };
 
-export const update = async (req: Request, res: Response) => {
-  const id = req.params.id;
-
-  const { name, price } = req.body as UpdateShippingMethodDto;
-
-  let shippingMethod = await findOrFail(id);
+export const update = async (id: string, { name, price }: UpdateShippingMethodDto) => {
+  let shippingMethod = await findOne(id);
 
   if (name) shippingMethod.name = name;
   if (price !== undefined) shippingMethod.price = price;
 
   shippingMethod = await shippingMethodsRepo.save(shippingMethod);
 
-  res.status(StatusCode.OK).json({
-    statusCode: StatusCode.OK,
-    data: shippingMethod,
-  } as ResponsePayload);
+  return shippingMethod;
 };
 
-export const remove = async (req: Request, res: Response) => {
-  const id = req.params.id;
-
-  const shippingMethod = await findOrFail(id);
-
+export const remove = async (id: string) => {
+  const shippingMethod = await findOne(id);
   await shippingMethodsRepo.remove(shippingMethod);
-
-  res.status(StatusCode.NO_CONTENT).json({
-    statusCode: StatusCode.NO_CONTENT,
-    data: null,
-  } as ResponsePayload);
 };

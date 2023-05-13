@@ -28,7 +28,7 @@ passport.serializeUser((user: any, cb: any) => {
 
 passport.deserializeUser(async (cookieUser: CookieUser, cb) => {
   if (cookieUser.isAdmin) {
-    const user = await adminController.findOrFail(cookieUser.id);
+    const user = await adminController.findOne(cookieUser.id);
 
     const sessionAdminUser: SessionAdminUser = {
       id: user.id,
@@ -39,7 +39,7 @@ passport.deserializeUser(async (cookieUser: CookieUser, cb) => {
     return cb(null, sessionAdminUser);
   }
 
-  const user = await usersController.findOrFail(cookieUser.id);
+  const user = await usersController.findOne(cookieUser.id);
 
   const sessionUser: SessionUser = {
     id: user.id,
