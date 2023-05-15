@@ -3,7 +3,7 @@ import { findOne, create, update, remove } from '../controllers/product-images.c
 import { createSchema, updateSchema } from '../schemas/product-image.schema';
 import idValidator from '../middleware/id-validator';
 import schemaValidator from '../middleware/schema-validator';
-import adminAuth from '../middleware/admin-auth';
+import adminAuth from '../middleware/auth';
 import routeHandler from '../middleware/route-handler';
 import { CreateProductImageDto, UpdateProductImageDto } from '../dto';
 import { StatusCode } from '../enums/status-code.enum';

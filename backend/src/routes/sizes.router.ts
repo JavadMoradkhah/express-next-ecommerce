@@ -4,7 +4,7 @@ import routeHandler from '../middleware/route-handler';
 import idValidator from '../middleware/id-validator';
 import schemaValidator from '../middleware/schema-validator';
 import { createSchema, updateSchema } from '../schemas/size.schema';
-import adminAuth from '../middleware/admin-auth';
+import adminAuth from '../middleware/auth';
 import { StatusCode } from '../enums/status-code.enum';
 import { CreateSizeDto, UpdateSizeDto } from '../dto';
 

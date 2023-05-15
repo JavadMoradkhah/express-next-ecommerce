@@ -7,7 +7,7 @@ import schemaValidator from '../middleware/schema-validator';
 import { loginSchema as adminLoginSchema } from '../schemas/admin.schema';
 import { createSchema, loginSchema, verificationSchema } from '../schemas/user.schema';
 import { loginAdmin, loginUser, registerUser, verifyUser } from '../controllers/auth.controller';
-import adminAuth from '../middleware/admin-auth';
+import adminAuth from '../middleware/auth';
 import { sendVerificationEmail } from '../controllers/email-verifications.controller';
 import { CreateUserDto, VerificationDto } from '../dto';
 import { StatusCode } from '../enums/status-code.enum';

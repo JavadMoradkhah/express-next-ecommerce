@@ -4,7 +4,7 @@ import { findAll, findOne, create, update, remove } from '../controllers/uploads
 import { createSchema, updateSchema } from '../schemas/upload.schema';
 import schemaValidator from '../middleware/schema-validator';
 import upload from '../middleware/upload';
-import adminAuth from '../middleware/admin-auth';
+import adminAuth from '../middleware/auth';
 import idValidator from '../middleware/id-validator';
 import { StatusCode } from '../enums/status-code.enum';
 import { CreateUploadDto, UpdateUploadDto } from '../dto';
