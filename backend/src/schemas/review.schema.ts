@@ -1,5 +1,6 @@
 import Joi from 'joi';
-import { CreateReviewDto, UpdateReviewDto } from '../dto';
+import { CreateReviewDto, UpdateReviewDto, UpdateReviewStatusDto } from '../dto';
+import { ReviewStatus } from '../entities';
 
 const schema: Record<keyof CreateReviewDto, Joi.AnySchema> = {
   product: Joi.string().label('Product').uuid(),
@@ -9,6 +10,12 @@ const schema: Record<keyof CreateReviewDto, Joi.AnySchema> = {
 
 export const updateSchema = Joi.object<UpdateReviewDto>(schema).min(1).label('Review');
 
+export const updateStatusSchema = Joi.object<UpdateReviewStatusDto>({
+  status: Joi.string()
+    .label('Status')
+    .valid(ReviewStatus.CONFIRMED, ReviewStatus.REJECTED)
+    .required(),
+});
 
 export const createSchema = Joi.object<CreateReviewDto>({
   product: schema.product.required(),
