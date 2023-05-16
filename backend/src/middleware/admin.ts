@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import { ForbiddenException } from '../common/exceptions';
-import ErrorMessages from '../enums/error-messages.enum';
-import { SessionAdminUser } from '../interfaces';
 import { Role } from '../entities';
+import { SessionAdminUser } from '../interfaces';
+import ErrorMessages from '../enums/error-messages.enum';
 
 export default () => {
   return (req: Request, res: Response, next: NextFunction) => {
