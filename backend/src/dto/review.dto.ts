@@ -4,4 +4,5 @@ export interface CreateReviewDto {
   comment: string;
 }
 
-export interface UpdateReviewDto extends Partial<CreateReviewDto> {}
+export interface UpdateReviewDto extends Partial<Omit<CreateReviewDto, 'product'>> {}
+
