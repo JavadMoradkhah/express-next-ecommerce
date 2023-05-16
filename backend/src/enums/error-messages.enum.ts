@@ -18,6 +18,10 @@ const enum ErrorMessages {
   PRODUCT_NOT_FOUND = 'The product was not found with the given id',
   // Product Image
   PRODUCT_IMAGE_NOT_FOUND = 'The product image was not found with the given id',
+  // Review
+  REVIEW_NOT_FOUND = 'The review was not found with the given id',
+  REVIEW_ALREADY_EXISTS = 'You have already registered your review for this product',
+  REVIEW_UPDATE_FORBIDDEN = "You can't change other people's reviews!",
   // Uploaded Image
   FILE_NOT_FOUND = 'The file was not found with the given id',
   FILE_TYPE_NOT_ALLOWED = 'The uploaded file type is not allowed',
