@@ -10,3 +10,4 @@ export * from './product-images.repo';
 export * from './users.repo';
 export * from './email_verifications.repo';
 export * from './variations.repo';
+export * from './reviews.repo';
