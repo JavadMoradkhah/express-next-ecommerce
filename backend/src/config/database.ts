@@ -13,6 +13,7 @@ import {
   User,
   EmailVerification,
   Variation,
+  Review,
 } from '../entities/';
 
 export const AppDataSource = new DataSource({
@@ -35,6 +36,7 @@ export const AppDataSource = new DataSource({
     User,
     EmailVerification,
     Variation,
+    Review,
   ],
   synchronize: process.env.NODE_ENV !== 'production',
   migrations: ['dist/migrations/*.js'],
