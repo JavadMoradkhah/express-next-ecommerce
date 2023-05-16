@@ -1,5 +1,4 @@
 import {
-  BeforeUpdate,
   Column,
   CreateDateColumn,
   Entity,
@@ -27,12 +26,6 @@ export class Review {
     default: ReviewStatus.PENDING,
   })
   status: ReviewStatus;
-
-  @BeforeUpdate()
-  updateStatus() {
-    // Mark the review as "pending" on updates so it will need to be confirmed by the admin again
-    this.status = ReviewStatus.PENDING;
-  }
 
   @ManyToOne(() => User, (user) => user.id, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
