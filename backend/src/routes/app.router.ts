@@ -30,6 +30,6 @@ router.use('/api/product-images', productImagesRouter);
 router.use('/api/variations', variationsRouter);
 router.use('/api/reviews', reviewsRouter);
 
-router.use('/public', express.static(path.resolve(process.cwd(), 'public')));
+router.use(express.static(path.resolve(process.cwd(), 'public')));
 
 export default router;
