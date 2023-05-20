@@ -10,3 +10,4 @@ export * from './product-image.dto';
 export * from './user.dto';
 export * from './variation.dto';
 export * from './review.dto';
+export * from './cart.dto';
