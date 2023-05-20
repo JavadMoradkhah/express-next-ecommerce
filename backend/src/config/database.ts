@@ -14,6 +14,8 @@ import {
   EmailVerification,
   Variation,
   Review,
+  Cart,
+  CartItem,
 } from '../entities/';
 
 export const AppDataSource = new DataSource({
@@ -37,6 +39,8 @@ export const AppDataSource = new DataSource({
     EmailVerification,
     Variation,
     Review,
+    Cart,
+    CartItem,
   ],
   synchronize: process.env.NODE_ENV !== 'production',
   migrations: ['dist/migrations/*.js'],

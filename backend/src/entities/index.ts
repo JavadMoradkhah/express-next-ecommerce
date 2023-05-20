@@ -11,3 +11,5 @@ export * from './user.entity';
 export * from './email_verification.entity';
 export * from './variation.entity';
 export * from './review.entity';
+export * from './cart.entity';
+export * from './cart-item.entity';
