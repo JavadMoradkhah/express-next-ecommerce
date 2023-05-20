@@ -5,8 +5,10 @@ import {
   Entity,
   OneToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 import { User } from './user.entity';
+import { CartItem } from './cart-item.entity';
 
 @Entity({ name: 'carts' })
 export class Cart {
@@ -16,6 +18,9 @@ export class Cart {
   @OneToOne(() => User, (user) => user.id)
   @JoinColumn({ name: 'user_id' })
   user: User;
+
+  @OneToMany(() => CartItem, (cartItem) => cartItem.cart)
+  items: CartItem[];
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
