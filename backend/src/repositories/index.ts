@@ -11,3 +11,5 @@ export * from './users.repo';
 export * from './email_verifications.repo';
 export * from './variations.repo';
 export * from './reviews.repo';
+export * from './carts.repo';
+export * from './cart-items.repo';
