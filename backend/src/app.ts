@@ -53,9 +53,8 @@ passport.deserializeUser(async (cookieUser: CookieUser, cb) => {
 
 app.listen(port, async () => {
   try {
-    await AppDataSource.initialize();
+    await Promise.all([AppDataSource.initialize(), redisClient.connect()]);
     console.log('✅ Database connection has been established successfully');
-    await redisClient.connect();
     console.log('✅ Redis connection has been established successfully');
     console.log(`🟢 Server is running: http://localhost:${port}/api/`);
   } catch (error) {
