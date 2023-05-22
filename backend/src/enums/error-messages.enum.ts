@@ -31,6 +31,9 @@ const enum ErrorMessages {
   // Variation
   VARIATION_NOT_FOUND = 'The product variation was not found with the given id',
   VARIATION_ALREADY_EXISTS = 'A product variation already exists with the given properties',
+  // Cart Item
+  CART_ITEM_NOT_FOUND = 'The cart item was not found with the given id',
+  QUANTITY_NOT_ALLOWED = 'The given quantity is more than the allowed quantity',
   // Auth
   INVALID_USERNAME_OR_PASSWORD = 'The given username or password is invalid',
   INVALID_EMAIL_OR_PASSWORD = 'The given email or password is invalid',
