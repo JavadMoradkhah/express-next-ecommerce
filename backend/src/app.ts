@@ -63,11 +63,10 @@ app.listen(port, async () => {
   }
 });
 
-process.on('exit', async () => {
+process.on('exit', () => {
   console.log('Closing TypeORM connection...');
-  await AppDataSource.destroy();
   console.log('Closing Redis connection...');
-  await redisClient.disconnect();
+  Promise.all([AppDataSource.destroy(), redisClient.disconnect()]).catch(console.log);
 });
 
 process.on('SIGINT', async () => {
