@@ -70,10 +70,6 @@ process.on('exit', () => {
 });
 
 process.on('SIGINT', async () => {
-  console.log('Closing TypeORM connection...');
-  await AppDataSource.destroy();
-  console.log('Closing Redis connection...');
-  await redisClient.disconnect();
   process.exit(0);
 });
 
