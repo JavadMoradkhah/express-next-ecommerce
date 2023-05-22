@@ -16,6 +16,7 @@ const enum ErrorMessages {
   COUNTRY_ALREADY_EXISTS = 'A country already exists with the given name',
   // Product
   PRODUCT_NOT_FOUND = 'The product was not found with the given id',
+  PRODUCT_IS_NOT_ORDERABLE = 'This product is not available right now, please try again later',
   // Product Image
   PRODUCT_IMAGE_NOT_FOUND = 'The product image was not found with the given id',
   // Review
