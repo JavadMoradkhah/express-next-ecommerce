@@ -8,8 +8,17 @@ import { ConflictException, NotFoundException } from '../common/exceptions';
 import ErrorMessages from '../enums/error-messages.enum';
 import { IsNull } from 'typeorm';
 
-export const findOne = async (id: string) => {
-  const variation = await variationsRepo.findOneBy({ id });
+export const findOne = async (id: string, includeRelations = false) => {
+  const variation = await variationsRepo.findOne({
+    where: {
+      id,
+    },
+    ...(includeRelations && {
+      relations: {
+        product: true,
+      },
+    }),
+  });
 
   if (!variation) {
     throw new NotFoundException(ErrorMessages.VARIATION_NOT_FOUND);
