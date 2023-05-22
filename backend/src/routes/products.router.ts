@@ -4,7 +4,7 @@ import routeHandler from '../middleware/route-handler';
 import idValidator from '../middleware/id-validator';
 import schemaValidator from '../middleware/schema-validator';
 import { createSchema, updateSchema } from '../schemas/product.schema';
-import adminAuth from '../middleware/auth';
+import admin from '../middleware/admin';
 import { StatusCode } from '../enums/status-code.enum';
 import { CreateProductDto, UpdateProductDto } from '../dto';
 
@@ -27,7 +27,7 @@ router.get(
 
 router.post(
   '/',
-  adminAuth(),
+  admin(),
   schemaValidator(createSchema),
   routeHandler((req: Request, res: Response) => {
     return create(req.body as CreateProductDto);
@@ -36,7 +36,7 @@ router.post(
 
 router.patch(
   '/:id',
-  adminAuth(),
+  admin(),
   idValidator(),
   schemaValidator(updateSchema),
   routeHandler((req: Request, res: Response) => {
@@ -46,7 +46,7 @@ router.patch(
 
 router.delete(
   '/:id',
-  adminAuth(),
+  admin(),
   idValidator(),
   routeHandler(
     (req: Request, res: Response) => {
