@@ -13,3 +13,4 @@ export * from './variation.entity';
 export * from './review.entity';
 export * from './cart.entity';
 export * from './cart-item.entity';
+export * from './address.entity';
