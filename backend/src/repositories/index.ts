@@ -13,3 +13,4 @@ export * from './variations.repo';
 export * from './reviews.repo';
 export * from './carts.repo';
 export * from './cart-items.repo';
+export * from './addresses.repo';
