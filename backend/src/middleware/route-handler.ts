@@ -1,11 +1,8 @@
-import { Request, Response, NextFunction } from 'express';
+import type { Request, Response, NextFunction } from 'express';
+import type { RequestHandler, RequestHandlerOptions } from '../interfaces';
 import { StatusCode } from '../enums/status-code.enum';
 
-type RequestHandler = (req: Request, res: Response, next: NextFunction) => any;
-
-type Options = { statusCode?: StatusCode };
-
-export default function (handler: RequestHandler, options?: Options) {
+export default function (handler: RequestHandler, options?: RequestHandlerOptions) {
   return (req: Request, res: Response, next: NextFunction) => {
     try {
       const result = handler(req, res, next);
