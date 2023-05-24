@@ -8,12 +8,9 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { AdminRole } from '../enums/admin-role.enum';
 
-export const enum Role {
-  SUPER_ADMIN = 'super_admin',
-}
-
-export const AdminRoles = [Role.SUPER_ADMIN];
+export const AdminRoles = [AdminRole.SUPER_ADMIN];
 
 @Entity({ name: 'admins' })
 export class Admin {
@@ -42,8 +39,8 @@ export class Admin {
     this.totpSecret = await bcrypt.hash(this.totpSecret, 12);
   }
 
-  @Column({ type: 'enum', enum: [Role.SUPER_ADMIN] })
-  role: Role;
+  @Column({ type: 'enum', enum: [AdminRole.SUPER_ADMIN] })
+  role: AdminRole;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
