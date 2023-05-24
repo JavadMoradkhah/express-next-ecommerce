@@ -1,5 +1,6 @@
 import express, { Router, Request, Response, NextFunction } from 'express';
 import * as path from 'path';
+import notFoundMiddleware from '../middleware/not-found';
 import authRouter from '../routes/auth.router';
 import categoryRouter from '../routes/categories.router';
 import colorRouter from '../routes/colors.router';
@@ -34,5 +35,7 @@ router.use('/api/reviews', reviewsRouter);
 router.use('/api/carts', cartsRouter);
 
 router.use(express.static(path.resolve(process.cwd(), 'public')));
+
+router.use('*', notFoundMiddleware);
 
 export default router;
