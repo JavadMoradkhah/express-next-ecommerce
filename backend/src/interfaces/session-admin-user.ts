@@ -1,7 +1,7 @@
-import { Role } from '../entities/admin.entity';
+import { AdminRole } from "../enums/admin-role.enum";
 
 export interface SessionAdminUser {
   id: string;
   username: string;
-  role: Role;
+  role: AdminRole;
 }

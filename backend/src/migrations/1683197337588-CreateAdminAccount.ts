@@ -1,6 +1,7 @@
 require('dotenv').config();
 import { MigrationInterface, QueryRunner } from 'typeorm';
-import { Admin, Role } from '../entities/admin.entity';
+import { Admin } from '../entities/admin.entity';
+import { AdminRole } from '../enums/admin-role.enum';
 
 export class CreateAdminAccount1683197337588 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -10,7 +11,7 @@ export class CreateAdminAccount1683197337588 implements MigrationInterface {
     admin.username = process.env.ADMIN_USERNAME;
     admin.email = process.env.ADMIN_EMAIL;
     admin.password = process.env.ADMIN_PASSWORD;
-    admin.role = Role.SUPER_ADMIN;
+    admin.role = AdminRole.SUPER_ADMIN;
 
     const result = await adminRepo.insert(admin);
 
