@@ -35,6 +35,8 @@ const enum ErrorMessages {
   // Cart Item
   CART_ITEM_NOT_FOUND = 'The cart item was not found with the given id',
   QUANTITY_NOT_ALLOWED = 'The given quantity is more than the allowed quantity',
+  // Address
+  ADDRESS_NOT_FOUND = 'The address was not found with the given id',
   // Auth
   INVALID_USERNAME_OR_PASSWORD = 'The given username or password is invalid',
   INVALID_EMAIL_OR_PASSWORD = 'The given email or password is invalid',
