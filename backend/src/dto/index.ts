@@ -12,3 +12,4 @@ export * from './variation.dto';
 export * from './review.dto';
 export * from './cart.dto';
 export * from './address.dto';
+export * from './wishlist.dt';
