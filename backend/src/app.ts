@@ -102,3 +102,8 @@ process.on('unhandledRejection', (err: any) => {
   logger.error(err.message, err);
   process.exit(1);
 });
+
+process.on('uncaughtException', (err: any) => {
+  logger.error(err.message, err);
+  process.exit(1);
+});
