@@ -15,6 +15,10 @@ export const sendVerificationEmail = async (verificationDto: VerificationDto) =>
     throw new BadRequestException(ErrorMessages.SIGNUP_REQUIRED_FOR_EMAIL_VERIFICATION);
   }
 
+  if (user.emailVerifiedAt) {
+    throw new BadRequestException(ErrorMessages.EMAIL_ALREADY_VERIFIED);
+  }
+
   const token = jwt.sign({ sub: user.id }, process.env.EMAIL_VERIFICATION_TOKEN_SECRET, {
     expiresIn: '1h',
   });
