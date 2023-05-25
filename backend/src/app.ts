@@ -18,6 +18,7 @@ import { CookieUser } from './interfaces/cookie-user';
 import sessionOptions from './config/session-options';
 import appRouter from './routes/app.router';
 import errorsMiddleware from './middleware/errors';
+import { logger } from './config/logger';
 
 const app = express();
 const redisClient = getRedisClient();
@@ -78,8 +79,8 @@ app.listen(port, async () => {
     console.log('✅ Database connection has been established successfully');
     console.log('✅ Redis connection has been established successfully');
     console.log(`🟢 Server is running: http://localhost:${port}/api/`);
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    logger.error(error.message, error);
     process.exit(1);
   }
 });
@@ -87,18 +88,16 @@ app.listen(port, async () => {
 process.on('exit', () => {
   console.log('Closing TypeORM connection...');
   console.log('Closing Redis connection...');
-  Promise.all([AppDataSource.destroy(), redisClient.disconnect()]).catch(console.log);
+  Promise.all([AppDataSource.destroy(), redisClient.disconnect()]).catch((error) =>
+    logger.error(error.message, error)
+  );
 });
 
 process.on('SIGINT', async () => {
   process.exit(0);
 });
 
-process.on('unhandledRejection', async (err) => {
-  console.error('Unhandled rejection:', err);
-  console.log('Closing TypeORM connection...');
-  await AppDataSource.destroy();
-  console.log('Closing Redis connection...');
-  await redisClient.disconnect();
+process.on('unhandledRejection', (err: any) => {
+  logger.error(err.message, err);
   process.exit(1);
 });
