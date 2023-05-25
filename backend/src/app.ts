@@ -19,6 +19,7 @@ import sessionOptions from './config/session-options';
 import appRouter from './routes/app.router';
 import errorsMiddleware from './middleware/errors';
 import { logger } from './config/logger';
+import './workers/email-worker';
 
 const app = express();
 const redisClient = getRedisClient();
