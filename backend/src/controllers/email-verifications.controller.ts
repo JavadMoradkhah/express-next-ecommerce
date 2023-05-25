@@ -1,5 +1,4 @@
 import * as jwt from 'jsonwebtoken';
-import { transporter } from '../config/mail';
 import { EmailVerification } from '../entities';
 import { getVerificationUrl } from '../common/app-utils';
 import { emailVerificationsRepo, usersRepo } from '../repositories';
@@ -7,6 +6,7 @@ import { AppDataSource } from '../config/database';
 import { BadRequestException } from '../common/exceptions';
 import ErrorMessages from '../enums/error-messages.enum';
 import { VerificationDto } from '../dto';
+import { emailQueue } from '../config/queue';
 
 export const sendVerificationEmail = async (verificationDto: VerificationDto) => {
   const user = await usersRepo.findOneBy({ email: verificationDto.email });
@@ -41,18 +41,15 @@ export const sendVerificationEmail = async (verificationDto: VerificationDto) =>
 
     await queryRunner.commitTransaction();
 
-    let info = await transporter.sendMail({
-      from: '"E-Commerce" <foo@example.com>',
-      to: `${user.email}, baz@example.com`,
+    await emailQueue.add('send-email', {
+      from: 'E-Commerce',
+      to: `${user.email}`,
       subject: 'Email Verification',
-      // text: 'Hello world?',
       html: `<div>
           <p>Click on the link below to verify your email address:</p>
           <a href="${getVerificationUrl(token)}">Verify</a>
       </div>`,
     });
-
-    console.log('Message sent: ' + info.messageId);
 
     return 'A verification email was sent to your email address';
   } catch (error) {
