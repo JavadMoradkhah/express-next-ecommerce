@@ -14,6 +14,7 @@ import variationsRouter from '../routes/variations.router';
 import reviewsRouter from '../routes/reviews.router';
 import cartsRouter from '../routes/carts.router';
 import addressesRouter from '../routes/addresses.router';
+import wishlistsRouter from '../routes/wishlists.router';
 
 const router = Router();
 
@@ -35,6 +36,7 @@ router.use('/api/variations', variationsRouter);
 router.use('/api/reviews', reviewsRouter);
 router.use('/api/carts', cartsRouter);
 router.use('/api/addresses', addressesRouter);
+router.use('/api/wishlists', wishlistsRouter);
 
 router.use(express.static(path.resolve(process.cwd(), 'public')));
 
