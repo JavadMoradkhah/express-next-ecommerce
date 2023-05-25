@@ -12,7 +12,7 @@ import { Product } from './product.entity';
 @Entity({ name: 'wishlists' })
 export class Wishlist {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
   @ManyToOne(() => User, (user) => user.id, {
     onDelete: 'CASCADE',
