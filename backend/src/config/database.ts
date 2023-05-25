@@ -17,6 +17,7 @@ import {
   Cart,
   CartItem,
   Address,
+  Wishlist,
 } from '../entities/';
 
 export const AppDataSource = new DataSource({
@@ -43,6 +44,7 @@ export const AppDataSource = new DataSource({
     Cart,
     CartItem,
     Address,
+    Wishlist,
   ],
   synchronize: process.env.NODE_ENV !== 'production',
   migrations: ['dist/migrations/*.js'],
