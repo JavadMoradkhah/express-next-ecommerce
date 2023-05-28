@@ -1,6 +1,7 @@
 import express, { Router, Request, Response, NextFunction } from 'express';
 import * as path from 'path';
 import notFoundMiddleware from '../middleware/not-found';
+import healthRouter from './health.router';
 import authRouter from '../routes/auth.router';
 import categoryRouter from '../routes/categories.router';
 import colorRouter from '../routes/colors.router';
@@ -24,6 +25,8 @@ router.get('/api/', (req: Request, res: Response, next: NextFunction) => {
   Promise.reject(new Error('Oops!'));
   res.status(200).send('Hello World');
 });
+
+router.get('/api/_health', healthRouter);
 
 router.use('/api/auth', authRouter);
 router.use('/api/categories', categoryRouter);
