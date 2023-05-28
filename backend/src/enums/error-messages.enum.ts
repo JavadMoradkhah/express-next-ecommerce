@@ -5,6 +5,9 @@ const enum ErrorMessages {
   CATEGORY_NOT_FOUND = 'The category was not found with the given id',
   PARENT_CATEGORY_NOT_FOUND = 'The parent category was not found with the given id',
   CATEGORY_ALREADY_EXISTS = 'A category already exists with the given slug',
+  // Brand
+  BRAND_NOT_FOUND = 'The brand was not found with the given id',
+  BRAND_ALREADY_EXISTS = 'A brand already exists with the given slug',
   // Faq category
   FAQ_CATEGORY_NOT_FOUND = 'The category was not found with the given id',
   FAQ_CATEGORY_ALREADY_EXISTS = 'A category already exists with the given name',
