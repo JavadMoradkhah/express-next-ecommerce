@@ -18,3 +18,4 @@ export * from './wishlists.repo';
 export * from './faq-category.repo';
 export * from './faq.repo';
 export * from './brands.repo';
+export * from './tags.repo';
