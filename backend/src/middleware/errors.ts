@@ -4,6 +4,7 @@ import { StatusCode } from '../enums/status-code.enum';
 import { HttpException } from '../common/exceptions';
 import { StatusCodeName } from '../enums/status-code-name.enum';
 import { MulterError } from 'multer';
+import { logger } from '../config/logger';
 
 export default async (error: any, req: Request, res: Response, next: NextFunction) => {
   if (req.file) {
@@ -34,7 +35,7 @@ export default async (error: any, req: Request, res: Response, next: NextFunctio
     });
   }
 
-  console.error(error);
+  logger.error(error.message, error);
 
   return res.status(StatusCode.INTERNAL_SERVER_ERROR).json({
     statusCode: StatusCode.INTERNAL_SERVER_ERROR,
