@@ -11,6 +11,9 @@ const enum ErrorMessages {
   // Tag
   TAG_NOT_FOUND = 'The tag was not found with the given id',
   TAG_ALREADY_EXISTS = 'A tag already exists with the given name or slug',
+  // Product Tag
+  PRODUCT_TAG_NOT_FOUND = 'The product tag was not found with the given id',
+  PRODUCT_TAG_ALREADY_ADDED = 'The given tag has already been added to the specified product',
   // Faq category
   FAQ_CATEGORY_NOT_FOUND = 'The category was not found with the given id',
   FAQ_CATEGORY_ALREADY_EXISTS = 'A category already exists with the given name',
