@@ -19,6 +19,7 @@ import wishlistsRouter from './wishlists.router';
 import faqCategoriesRouter from './faq-categories.router';
 import faqsRouter from './faqs.router';
 import brandsRouter from './brands.router';
+import tagsRouter from './tags.router';
 
 const router = Router();
 
@@ -46,6 +47,7 @@ router.use('/api/wishlists', wishlistsRouter);
 router.use('/api/faq-categories', faqCategoriesRouter);
 router.use('/api/faqs', faqsRouter);
 router.use('/api/brands', brandsRouter);
+router.use('/api/tags', tagsRouter);
 
 router.use(express.static(path.resolve(process.cwd(), 'public')));
 
