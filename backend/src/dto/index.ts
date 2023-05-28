@@ -13,3 +13,4 @@ export * from './review.dto';
 export * from './cart.dto';
 export * from './address.dto';
 export * from './wishlist.dt';
+export * from './faq-category.dto';
