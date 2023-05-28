@@ -16,3 +16,4 @@ export * from './cart-item.entity';
 export * from './address.entity';
 export * from './wishlist.entity';
 export * from './faq-category.entity';
+export * from './faq.entity';
