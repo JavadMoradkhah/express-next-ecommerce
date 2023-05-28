@@ -16,3 +16,4 @@ export * from './cart-items.repo';
 export * from './addresses.repo';
 export * from './wishlists.repo';
 export * from './faq-category.repo';
+export * from './faq.repo';
