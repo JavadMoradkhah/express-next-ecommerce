@@ -8,6 +8,9 @@ const enum ErrorMessages {
   // Brand
   BRAND_NOT_FOUND = 'The brand was not found with the given id',
   BRAND_ALREADY_EXISTS = 'A brand already exists with the given slug',
+  // Tag
+  TAG_NOT_FOUND = 'The tag was not found with the given id',
+  TAG_ALREADY_EXISTS = 'A tag already exists with the given name or slug',
   // Faq category
   FAQ_CATEGORY_NOT_FOUND = 'The category was not found with the given id',
   FAQ_CATEGORY_ALREADY_EXISTS = 'A category already exists with the given name',
