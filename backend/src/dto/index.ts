@@ -15,3 +15,4 @@ export * from './address.dto';
 export * from './wishlist.dt';
 export * from './faq-category.dto';
 export * from './faq.dto';
+export * from './brand.dto';
