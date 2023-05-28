@@ -17,3 +17,4 @@ export * from './addresses.repo';
 export * from './wishlists.repo';
 export * from './faq-category.repo';
 export * from './faq.repo';
+export * from './brands.repo';
