@@ -20,6 +20,7 @@ import {
   Wishlist,
   FaqCategory,
   FAQ,
+  Brand,
 } from '../entities/';
 
 export const AppDataSource = new DataSource({
@@ -49,6 +50,7 @@ export const AppDataSource = new DataSource({
     Wishlist,
     FaqCategory,
     FAQ,
+    Brand
   ],
   synchronize: process.env.NODE_ENV !== 'production',
   migrations: ['dist/migrations/*.js'],

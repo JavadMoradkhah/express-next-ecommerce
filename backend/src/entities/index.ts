@@ -17,3 +17,4 @@ export * from './address.entity';
 export * from './wishlist.entity';
 export * from './faq-category.entity';
 export * from './faq.entity';
+export * from './brand.entity';
