@@ -4,12 +4,14 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { ProductImage } from './product-image.entity';
+import { ProductTag } from './product-tag.entity';
 
 @Entity({ name: 'products' })
 export class Product {
@@ -40,6 +42,9 @@ export class Product {
 
   @OneToMany(() => ProductImage, (productImage) => productImage.product)
   images: ProductImage[];
+
+  @ManyToMany(() => ProductTag, (productTag) => productTag.product)
+  tags: ProductTag[];
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
