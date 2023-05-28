@@ -20,3 +20,4 @@ export * from './faq.repo';
 export * from './brands.repo';
 export * from './tags.repo';
 export * from './product-tags.repo';
+export * from './promotions.repo';
