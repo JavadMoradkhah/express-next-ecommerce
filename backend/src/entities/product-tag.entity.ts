@@ -1,4 +1,5 @@
 import {
+  Index,
   Entity,
   PrimaryGeneratedColumn,
   ManyToOne,
@@ -10,6 +11,7 @@ import { Tag } from './tag.entity';
 import { Product } from './product.entity';
 
 @Entity({ name: 'product-tags' })
+@Index(['product', 'tag'], { unique: true })
 export class ProductTag {
   @PrimaryGeneratedColumn('uuid')
   id: string;
