@@ -8,6 +8,9 @@ const enum ErrorMessages {
   // Faq category
   FAQ_CATEGORY_NOT_FOUND = 'The category was not found with the given id',
   FAQ_CATEGORY_ALREADY_EXISTS = 'A category already exists with the given name',
+  // FAQ
+  FAQ_NOT_FOUND = 'The faq was not found with the given id',
+  FAQ_ALREADY_EXISTS = 'The faq already exists',
   // Color
   COLOR_NOT_FOUND = 'The color was not found with the given id',
   COLOR_ALREADY_EXISTS = 'A color already exists with the given name or code',
