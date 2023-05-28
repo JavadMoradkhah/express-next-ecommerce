@@ -10,12 +10,12 @@ import * as adminLocalStrategy from './auth/strategies/admin-local.strategy';
 import * as userLocalStrategy from './auth/strategies/user-local.strategy';
 import { AppDataSource } from './config/database';
 import { getRedisClient } from './config/redis';
+import { logger } from './config/logger';
+import { serializer, deserializer } from './auth/serializers/passport';
 import sessionOptions from './config/session-options';
 import appRouter from './routes/app.router';
 import errorsMiddleware from './middleware/errors';
-import { logger } from './config/logger';
 import './workers/email-worker';
-import { serializer, deserializer } from './auth/serializers/passport';
 
 const app = express();
 const redisClient = getRedisClient();
