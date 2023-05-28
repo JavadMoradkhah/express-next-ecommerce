@@ -17,3 +17,4 @@ export * from './faq-category.dto';
 export * from './faq.dto';
 export * from './brand.dto';
 export * from './tag.dto';
+export * from './product-tag.dto';
