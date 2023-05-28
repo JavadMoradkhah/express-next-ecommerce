@@ -20,6 +20,7 @@ import faqCategoriesRouter from './faq-categories.router';
 import faqsRouter from './faqs.router';
 import brandsRouter from './brands.router';
 import tagsRouter from './tags.router';
+import productTagsRouter from './product-tags.router';
 
 const router = Router();
 
@@ -48,6 +49,7 @@ router.use('/api/faq-categories', faqCategoriesRouter);
 router.use('/api/faqs', faqsRouter);
 router.use('/api/brands', brandsRouter);
 router.use('/api/tags', tagsRouter);
+router.use('/api/product-tags', productTagsRouter);
 
 router.use(express.static(path.resolve(process.cwd(), 'public')));
 
