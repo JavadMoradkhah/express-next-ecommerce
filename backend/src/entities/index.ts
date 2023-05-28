@@ -19,3 +19,4 @@ export * from './faq-category.entity';
 export * from './faq.entity';
 export * from './brand.entity';
 export * from './tag.entity';
+export * from './product-tag.entity';

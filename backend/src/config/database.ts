@@ -22,6 +22,7 @@ import {
   FAQ,
   Brand,
   Tag,
+  ProductTag,
 } from '../entities/';
 
 export const AppDataSource = new DataSource({
@@ -52,7 +53,8 @@ export const AppDataSource = new DataSource({
     FaqCategory,
     FAQ,
     Brand,
-    Tag
+    Tag,
+    ProductTag,
   ],
   synchronize: process.env.NODE_ENV !== 'production',
   migrations: ['dist/migrations/*.js'],
