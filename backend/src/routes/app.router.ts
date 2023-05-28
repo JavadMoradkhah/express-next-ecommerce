@@ -16,6 +16,7 @@ import cartsRouter from '../routes/carts.router';
 import addressesRouter from '../routes/addresses.router';
 import wishlistsRouter from '../routes/wishlists.router';
 import faqCategoriesRouter from '../routes/faq-categories.router';
+import faqsRouter from '../routes/faqs.router';
 
 const router = Router();
 
@@ -39,6 +40,7 @@ router.use('/api/carts', cartsRouter);
 router.use('/api/addresses', addressesRouter);
 router.use('/api/wishlists', wishlistsRouter);
 router.use('/api/faq-categories', faqCategoriesRouter);
+router.use('/api/faqs', faqsRouter);
 
 router.use(express.static(path.resolve(process.cwd(), 'public')));
 
