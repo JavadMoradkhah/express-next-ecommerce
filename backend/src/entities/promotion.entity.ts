@@ -18,7 +18,7 @@ export class Promotion {
   @JoinColumn({ name: 'product_id' })
   product: Product;
 
-  @Column({ name: 'start_date', type: 'date', default: Date.now() })
+  @Column({ name: 'start_date', type: 'date', default: () => 'CURRENT_DATE' })
   startDate: Date;
 
   @Column({ name: 'end_date', type: 'date' })
