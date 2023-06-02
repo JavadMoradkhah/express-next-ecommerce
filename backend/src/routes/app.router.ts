@@ -21,6 +21,7 @@ import faqsRouter from './faqs.router';
 import brandsRouter from './brands.router';
 import tagsRouter from './tags.router';
 import productTagsRouter from './product-tags.router';
+import promotionsRouter from './promotions.router';
 
 const router = Router();
 
@@ -50,6 +51,7 @@ router.use('/api/faqs', faqsRouter);
 router.use('/api/brands', brandsRouter);
 router.use('/api/tags', tagsRouter);
 router.use('/api/product-tags', productTagsRouter);
+router.use('/api/promotions', promotionsRouter);
 
 router.use(express.static(path.resolve(process.cwd(), 'public')));
 
