@@ -33,6 +33,14 @@ const enum ErrorMessages {
   PRODUCT_NOT_FOUND = 'The product was not found with the given id',
   PRODUCT_IS_NOT_ORDERABLE = 'This product is not available right now, please try again later',
   PRODUCT_IS_NOT_ORDERABLE_ADMIN = 'This product is not orderable',
+  // Promotion
+  PROMOTION_NOT_FOUND = 'The promotion was not found with the given id',
+  PROMOTION_ALREADY_EXISTS = 'A promotion already exists for the given product',
+  PROMOTION_START_DATE_IS_INVALID = 'The given start date is not a valid date',
+  PROMOTION_END_DATE_IS_INVALID = 'The given end date is not a valid date',
+  PROMOTION_START_DATE_IS_EARLY = "The promotion start date must be equal to or after today's date",
+  PROMOTION_END_DATE_MUST_BE_AFTER_START_DATE = 'The promotion end date must be after the start date',
+
   // Product Image
   PRODUCT_IMAGE_NOT_FOUND = 'The product image was not found with the given id',
   // Review
