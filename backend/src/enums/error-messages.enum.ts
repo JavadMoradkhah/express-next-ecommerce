@@ -32,6 +32,7 @@ const enum ErrorMessages {
   // Product
   PRODUCT_NOT_FOUND = 'The product was not found with the given id',
   PRODUCT_IS_NOT_ORDERABLE = 'This product is not available right now, please try again later',
+  PRODUCT_IS_NOT_ORDERABLE_ADMIN = 'This product is not orderable',
   // Product Image
   PRODUCT_IMAGE_NOT_FOUND = 'The product image was not found with the given id',
   // Review
