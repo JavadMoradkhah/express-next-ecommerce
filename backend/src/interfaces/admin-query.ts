@@ -1,4 +1,4 @@
 export interface AdminQuery {
-  page?: number;
+  page?: string;
   q?: string;
 }
