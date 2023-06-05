@@ -1,4 +1,5 @@
 import * as jwt from 'jsonwebtoken';
+import appConfig from '../config/app';
 
 const getScheme = (): string => {
   return process.env.NODE_ENV === 'production' ? 'https://' : 'http://';
@@ -32,4 +33,33 @@ export const verifyToken = (token: string, secret: string): Promise<jwt.JwtPaylo
       resolve(decoded as jwt.JwtPayload);
     });
   });
+};
+
+export const getPaginationParams = (page?: string) => {
+  const itemsPerPage = appConfig.pagination.itemsPerAdminPage;
+
+  return {
+    take: itemsPerPage,
+    skip: ((+page || 1) - 1) * itemsPerPage,
+  };
+};
+
+export const calculateTotalPages = (totalItems: number, limit: number) => {
+  return Math.ceil(totalItems / limit);
+};
+
+export const getPaginatedResponse = (
+  data: any[],
+  totalItems: number,
+  page: string,
+  itemsPerPage: number
+) => {
+  return {
+    data: data,
+    pagination: {
+      total_items: totalItems,
+      current_page: +page || 1,
+      total_pages: calculateTotalPages(totalItems, itemsPerPage),
+    },
+  };
 };
