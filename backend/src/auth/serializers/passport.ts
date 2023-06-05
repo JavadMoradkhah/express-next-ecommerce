@@ -1,7 +1,7 @@
 import { AdminRoles } from '../../entities';
 import { CookieUser } from '../../interfaces/cookie-user';
 import { SessionAdminUser, SessionUser } from '../../interfaces';
-import * as adminController from '../../controllers/admins.controller';
+import * as adminController from '../../controllers/admin/admins.controller';
 import * as usersController from '../../controllers/users.controller';
 
 export const serializer = (user: any, cb: any) => {

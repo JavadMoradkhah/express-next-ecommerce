@@ -1,6 +1,6 @@
-import { adminsRepo } from '../repositories';
-import { BadRequestException } from '../common/exceptions';
-import ErrorMessages from '../enums/error-messages.enum';
+import { adminsRepo } from '../../repositories';
+import { BadRequestException } from '../../common/exceptions';
+import ErrorMessages from '../../enums/error-messages.enum';
 
 export const findOne = async (id: string) => {
   const admin = await adminsRepo.findOne({
