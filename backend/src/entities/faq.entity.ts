@@ -24,6 +24,9 @@ export class FAQ {
   @Column({ type: 'text' })
   answer: string;
 
+  @Column({ type: 'tsvector', select: false })
+  document: any;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 

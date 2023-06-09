@@ -14,6 +14,9 @@ export class Country {
   @Column({ type: 'varchar', length: 50, unique: true })
   name: string;
 
+  @Column({ type: 'tsvector', select: false })
+  document: any;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 

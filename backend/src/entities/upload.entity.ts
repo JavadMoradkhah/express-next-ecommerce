@@ -27,6 +27,9 @@ export class Upload {
   @Column({ type: 'varchar', length: 255 })
   alt: string;
 
+  @Column({ type: 'tsvector', select: false })
+  document: any;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 

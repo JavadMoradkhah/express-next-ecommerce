@@ -46,6 +46,9 @@ export class Product {
   @ManyToMany(() => ProductTag, (productTag) => productTag.product)
   tags: ProductTag[];
 
+  @Column({ type: 'tsvector', select: false })
+  document: any;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
