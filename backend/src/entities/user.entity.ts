@@ -9,16 +9,15 @@ import {
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
+@Index(['firstName', 'lastName'], { fulltext: true })
 @Entity({ name: 'users' })
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Index({ fulltext: true })
   @Column({ name: 'first_name', type: 'varchar', length: 50 })
   firstName: string;
 
-  @Index({ fulltext: true })
   @Column({ name: 'last_name', type: 'varchar', length: 50 })
   lastName: string;
 
