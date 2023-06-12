@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -24,6 +25,7 @@ export class Upload {
   })
   imageUrl: string;
 
+  @Index({ fulltext: true })
   @Column({ type: 'varchar', length: 255 })
   alt: string;
 

@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   JoinColumn,
   ManyToOne,
   OneToMany,
@@ -14,6 +15,7 @@ export class Category {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Index({ fulltext: true })
   @Column({ type: 'varchar', length: 50 })
   name: string;
 

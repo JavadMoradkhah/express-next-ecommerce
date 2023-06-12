@@ -4,6 +4,7 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  Index,
 } from 'typeorm';
 
 @Entity({ name: 'brands' })
@@ -11,6 +12,7 @@ export class Brand {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Index({ fulltext: true })
   @Column({ type: 'varchar', length: 50 })
   name: string;
 

@@ -3,6 +3,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -13,12 +14,15 @@ export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Index({ fulltext: true })
   @Column({ name: 'first_name', type: 'varchar', length: 50 })
   firstName: string;
 
+  @Index({ fulltext: true })
   @Column({ name: 'last_name', type: 'varchar', length: 50 })
   lastName: string;
 
+  @Index({ fulltext: true })
   @Column({ type: 'varchar', length: 50, unique: true })
   email: string;
 

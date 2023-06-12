@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
@@ -18,6 +19,7 @@ export class FAQ {
   @JoinColumn({ name: 'category_id' })
   category: FaqCategory;
 
+  @Index({ fulltext: true })
   @Column({ type: 'varchar', length: 255, unique: true })
   question: string;
 

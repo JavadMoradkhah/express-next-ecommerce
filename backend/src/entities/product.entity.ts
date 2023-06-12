@@ -3,6 +3,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   JoinColumn,
   ManyToMany,
   ManyToOne,
@@ -22,6 +23,7 @@ export class Product {
   @JoinColumn({ name: 'category_id' })
   category: Category;
 
+  @Index({ fulltext: true })
   @Column({ type: 'varchar', length: 255 })
   title: string;
 

@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -11,6 +12,7 @@ export class Country {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Index({ fulltext: true })
   @Column({ type: 'varchar', length: 50, unique: true })
   name: string;
 
