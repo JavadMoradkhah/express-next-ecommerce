@@ -2,17 +2,16 @@ version: '3.9'
 
 services:
   db:
-    image: postgres:15.2-alpine
+    image: mysql:8.0.33
     restart: always
     env_file: .env
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
     ports:
-      - '5432:5432'
+      - '3307:3306'
     volumes:
-      - db-data:/var/lib/postgresql/data
+      - ./mysql:/var/lib/mysql
 
   redis:
     image: redis:7.2-rc1-alpine
@@ -23,5 +22,4 @@ services:
       - redis:/var/lib/redis/data
 
 volumes:
-  db-data:
   redis:
