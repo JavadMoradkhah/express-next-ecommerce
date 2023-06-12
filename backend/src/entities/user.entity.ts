@@ -22,7 +22,6 @@ export class User {
   @Column({ name: 'last_name', type: 'varchar', length: 50 })
   lastName: string;
 
-  @Index({ fulltext: true })
   @Column({ type: 'varchar', length: 50, unique: true })
   email: string;
 
