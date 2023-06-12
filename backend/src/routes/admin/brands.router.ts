@@ -1,19 +1,31 @@
 import { Router, Request, Response } from 'express';
-import admin from '../middleware/admin';
-import idValidator from '../middleware/id-validator';
-import schemaValidator from '../middleware/schema-validator';
-import routeHandler from '../middleware/route-handler';
-import { CreateBrandDto, UpdateBrandDto } from '../dto';
-import { createSchema, updateSchema } from '../schemas/brand.schema';
-import { create, findAll, findOne, remove, update } from '../controllers/brands.controller';
-import { StatusCode } from '../enums/status-code.enum';
+
+import idValidator from '../../middleware/id-validator';
+import schemaValidator from '../../middleware/schema-validator';
+import routeHandler from '../../middleware/route-handler';
+import { CreateBrandDto, UpdateBrandDto } from '../../dto';
+import { createSchema, updateSchema } from '../../schemas/brand.schema';
+import {
+  create,
+  findAll,
+  findOne,
+  remove,
+  update,
+} from '../../controllers/admin/brands.controller';
+import { StatusCode } from '../../enums/status-code.enum';
+import admin from '../../middleware/admin';
+import queryValidator from '../../middleware/query-validator';
+import { adminQuerySchema } from '../../schemas/admin-query.schema';
 
 const router = Router();
 
+router.use(admin());
+
 router.get(
   '/',
+  queryValidator(adminQuerySchema),
   routeHandler((req: Request, res: Response) => {
-    return findAll();
+    return findAll(req.query);
   })
 );
 
@@ -27,7 +39,6 @@ router.get(
 
 router.post(
   '/',
-  admin(),
   schemaValidator(createSchema),
   routeHandler((req: Request, res: Response) => {
     return create(req.body as CreateBrandDto);
@@ -36,7 +47,6 @@ router.post(
 
 router.patch(
   '/:id',
-  admin(),
   idValidator(),
   schemaValidator(updateSchema),
   routeHandler((req: Request, res: Response) => {
@@ -46,7 +56,6 @@ router.patch(
 
 router.delete(
   '/:id',
-  admin(),
   idValidator(),
   routeHandler(
     (req: Request, res: Response) => {
