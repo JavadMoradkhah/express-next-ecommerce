@@ -2,7 +2,7 @@ import { ConflictException, NotFoundException } from '../../common/exceptions';
 import { brandsRepo } from '../../repositories';
 import { CreateBrandDto, UpdateBrandDto } from '../../dto';
 import { AdminQuery } from '../../interfaces';
-import { getPaginationParams, getPaginatedResponse } from '../../common/app-utils';
+import { getPaginationParams, getPaginationData } from '../../common/app-utils';
 import ErrorMessages from '../../enums/error-messages.enum';
 
 export const findAll = async ({ page, q }: AdminQuery) => {
@@ -23,7 +23,10 @@ export const findAll = async ({ page, q }: AdminQuery) => {
 
   const [brands, count] = await query.getManyAndCount();
 
-  return getPaginatedResponse(brands, count, page, take);
+  return {
+    data: brands,
+    pagination: getPaginationData(count, page, take),
+  };
 };
 
 export const findOne = async (id: string) => {

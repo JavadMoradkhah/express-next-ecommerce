@@ -48,18 +48,10 @@ export const calculateTotalPages = (totalItems: number, limit: number) => {
   return Math.ceil(totalItems / limit);
 };
 
-export const getPaginatedResponse = (
-  data: any[],
-  totalItems: number,
-  page: string,
-  itemsPerPage: number
-) => {
+export const getPaginationData = (totalItems: number, page: string, itemsPerPage: number) => {
   return {
-    data: data,
-    pagination: {
-      total_items: totalItems,
-      current_page: +page || 1,
-      total_pages: calculateTotalPages(totalItems, itemsPerPage),
-    },
+    total_items: totalItems,
+    current_page: +page || 1,
+    total_pages: calculateTotalPages(totalItems, itemsPerPage),
   };
 };
