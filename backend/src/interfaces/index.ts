@@ -3,3 +3,4 @@ export * from './session-user';
 export * from './token-payload';
 export * from './request-handler';
 export * from './admin-query';
+export * from './paginated-response';
