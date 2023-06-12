@@ -7,7 +7,7 @@ const schema: Record<keyof CreateProductDto, Joi.AnySchema> = {
   description: Joi.string().max(1024),
   price: Joi.number().min(0).max(9_999_999.99).precision(2),
   discount: Joi.number().integer().min(0).max(100),
-  orderLimit: Joi.number().integer().min(1).max(32_000),
+  orderLimit: Joi.number().integer().min(1).max(255),
   orderable: Joi.boolean(),
 };
 

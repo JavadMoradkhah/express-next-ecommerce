@@ -20,7 +20,7 @@ export class Upload {
   @Column({
     name: 'image_url',
     generatedType: 'STORED',
-    asExpression: `location || image_name`,
+    asExpression: `CONCAT(location, image_name)`,
   })
   imageUrl: string;
 

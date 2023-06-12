@@ -31,10 +31,10 @@ export class Product {
   @Column({ type: 'decimal', precision: 9, scale: 2 })
   price: number;
 
-  @Column({ type: 'smallint', nullable: true })
+  @Column({ type: 'tinyint', nullable: true })
   discount?: number;
 
-  @Column({ name: 'order_limit', type: 'smallint', nullable: true })
+  @Column({ name: 'order_limit', type: 'tinyint', nullable: true })
   orderLimit?: number;
 
   @Column({ type: 'boolean', default: true })
