@@ -27,7 +27,7 @@ import {
 } from '../entities/';
 
 export const AppDataSource = new DataSource({
-  type: 'postgres',
+  type: 'mysql',
   host: process.env.DB_HOST,
   port: +process.env.DB_PORT,
   username: process.env.DB_USER,
