@@ -17,9 +17,6 @@ export class Brand {
   @Column({ type: 'varchar', length: 50, unique: true })
   slug: string;
 
-  @Column({ type: 'tsvector', select: false })
-  document: any;
-
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 

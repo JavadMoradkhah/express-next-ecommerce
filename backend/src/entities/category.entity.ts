@@ -30,9 +30,6 @@ export class Category {
   @OneToMany(() => Category, (category) => category.parent)
   children: Category[];
 
-  @Column({ type: 'tsvector', select: false })
-  document: any;
-
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 

@@ -17,9 +17,6 @@ export class ShippingMethod {
   @Column({ type: 'decimal', precision: 6, scale: 2 })
   price: number;
 
-  @Column({ type: 'tsvector', select: false })
-  document: any;
-
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
