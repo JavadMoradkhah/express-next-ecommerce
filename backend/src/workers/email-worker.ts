@@ -1,10 +1,10 @@
 import { Worker } from 'bullmq';
 import { transporter } from '../config/mail';
 import { logger } from '../config/logger';
-import { queueConnection } from '../config/queue';
+import { Queues, queueConnection } from '../config/queue';
 
 const worker = new Worker(
-  'emails',
+  Queues.EMAIL,
   async (job) => {
     await transporter.sendMail({
       from: job.data.from,
