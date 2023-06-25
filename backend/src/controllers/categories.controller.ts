@@ -1,8 +1,6 @@
 import { IsNull } from 'typeorm';
-import { Category } from '../entities/category.entity';
-import { ConflictException, NotFoundException } from '../common/exceptions';
+import { NotFoundException } from '../common/exceptions';
 import { categoriesRepo } from '../repositories';
-import { CreateCategoryDto, UpdateCategoryDto } from '../dto';
 import ErrorMessages from '../enums/error-messages.enum';
 
 export const findAll = async () => {
@@ -11,6 +9,11 @@ export const findAll = async () => {
       id: true,
       name: true,
       slug: true,
+      children: {
+        id: true,
+        name: true,
+        slug: true,
+      },
     },
     relations: {
       children: true,
@@ -36,69 +39,4 @@ export const findOne = async (id: string) => {
   }
 
   return category;
-};
-
-export const create = async (createCategoryDto: CreateCategoryDto) => {
-  let parent: Category = null;
-
-  if (createCategoryDto.parent) {
-    parent = await findOne(createCategoryDto.parent);
-  }
-
-  const exists = await categoriesRepo.exist({
-    where: { slug: createCategoryDto.slug },
-  });
-
-  if (exists) {
-    throw new ConflictException(ErrorMessages.CATEGORY_ALREADY_EXISTS);
-  }
-
-  const category = await categoriesRepo.save(
-    categoriesRepo.create({
-      name: createCategoryDto.name,
-      slug: createCategoryDto.slug,
-      ...(parent && {
-        parent: {
-          id: parent.id,
-        },
-      }),
-    })
-  );
-
-  return category;
-};
-
-export const update = async (id: string, updateCategoryDto: UpdateCategoryDto) => {
-  let parent: Category = null;
-
-  let category = await findOne(id);
-
-  if (updateCategoryDto.parent) {
-    parent = await findOne(updateCategoryDto.parent);
-
-    category.parent = parent;
-  }
-
-  if (updateCategoryDto.slug) {
-    const exists = await categoriesRepo.exist({
-      where: { slug: updateCategoryDto.slug },
-    });
-
-    if (exists) {
-      throw new ConflictException(ErrorMessages.CATEGORY_ALREADY_EXISTS);
-    }
-
-    category.slug = updateCategoryDto.slug;
-  }
-
-  if (updateCategoryDto.name) category.name = updateCategoryDto.name;
-
-  category = await categoriesRepo.save(category);
-
-  return category;
-};
-
-export const remove = async (id: string) => {
-  const category = await findOne(id);
-  await categoriesRepo.remove(category);
 };
